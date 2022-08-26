@@ -1,4 +1,12 @@
-**Key:**
+# Network Performance Workflow
+
+## Workflow description
+
+This workflow defines and end-to-end benchmark test for network performance, specifically using the [uperf](https://github.com/uperf/uperf) benchmark utility. This is targeted at Kubernetes environments and includes orchestration of necessary objects via the k8s APIs.
+
+A single top-level schema provides all of the data and metadata constructs required to describe the complete list of benchmark workloads to be run, as well global and SUT parameters that further define the environment within which the test is run and how other parallel data collections will be handled. Finally, all data and metadata from the sequence of tests are post-processed into an approproate document format and indexed into Elasticsearch.
+
+## Diagram Key
 ```mermaid
 graph TD
     schema[schema parameters]
@@ -38,7 +46,7 @@ sut_params:
     servicetype: str
     metallb:
         addresspool: str
-        service_etp: str 
+        service_etp: str
     multus:
         enabled: bool
 ```
@@ -60,11 +68,12 @@ uperf_workloads:
         runtime: int
 ```
 
-Individual workloads should be provided as lists of dicts, where parameters override the defaults.
+Individual workloads should be provided as lists of dicts, where parameters override the `defaults` above. Each list item should accept all parameters supported by the underlying uperf schema.
 ```yaml
 uperf_workloads:
-    workload: ListType[dict]
-        - <dict of params>  <-- This needs to accept all params from the defaults as optional
+    workload: list[dict]
+        - dict
+        - dict
         - ...
 ```
 ```mermaid
@@ -72,7 +81,37 @@ graph TD
     workloads_list[workloads list] --> test_g(workloads test graph) --> scheduling(k8s scheduling)
 ```
 
-## Complete workflow diagram
+## Complete workflow schema and diagram
+```yaml
+global_params:
+    es_server: str
+    metadata_collection: bool
+    metadata_targeted: bool
+    system_metrics_collection: bool
+    uuid: str
+    cluster_name: str
+    prom_token: str
+
+sut_params:
+    network_policy: bool
+    multi_az: bool
+    hostnetwork: bool
+    serviceip: bool
+    test_timeout: int
+    run_id: str
+    servicetype: str
+    metallb:
+        addresspool: str
+        service_etp: str
+    multus:
+        enabled: bool
+
+uperf_workloads:
+    workload: list[dict]
+        - dict
+        - dict
+        - ...
+```
 ```mermaid
 graph TD
     global_params[global params] --> metrics_plugin
