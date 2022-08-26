@@ -19,6 +19,8 @@ Global parameters define metadata items that will persist through the entire wor
 
 ```yaml
 global_params:
+    platform: enum
+    kubeconfig: str
     es_server: str
     metadata_collection: bool
     metadata_targeted: bool
@@ -32,6 +34,20 @@ graph TD
     global_params[global params] --> metrics_plugin([SUT metrics collection])
     global_params --> metadata_plugin([SUT metadata collection])
     global_params --> pod_config(k8s pod/job config)
+```
+
+Platform params provide platform-specific auth and resource values.
+```yaml
+# TODO: Flesh out what's needed per-platform
+platform_params:
+    auth_key1: str
+    auth_key2: str
+    resource_key1: str
+    resource_key2: str
+```
+```mermaid
+graph TD
+    platform_params[platform params] --> pod_config(k8s pod/job config)
 ```
 
 SUT parameters affect k8s settings for pods and potentially other objects.
@@ -55,16 +71,28 @@ graph TD
     sut_params[SUT params] --> net_config(pod network config) --> pod_config(k8s pod/job config)
 ```
 
+The workload geometry params will define the distribution of client and server uperf pods.
+```yaml
+# TODO: Determine how to describe client/server distribution
+workload_geometry:
+    key1:
+    key2:
+```
+```mermaid
+graph TD
+    geometry[workload geometry] --> workloads_g(workloads graph) --> scheduling(k8s scheduling)
+```
+
 The parameters for the uperf workloads should be available as defaults that will apply to all listed workloads unless overridden.
 ```yaml
 uperf_workloads:
     defaults:
         samples: int
-        pairs: ListType[int]
-        nthrs: ListType[int]
-        protos:  ListType[enum]
-        test_types:  ListType[enum]
-        sizes:  ListType[int]
+        pairs: list[int]
+        nthrs: list[int]
+        protos:  list[enum]
+        test_types:  list[enum]
+        sizes:  list[int]
         runtime: int
 ```
 
@@ -78,12 +106,14 @@ uperf_workloads:
 ```
 ```mermaid
 graph TD
-    workloads_list[workloads list] --> test_g(workloads test graph) --> scheduling(k8s scheduling)
+    workloads_list[workloads list] --> workloads_g(workloads graph) --> scheduling(k8s scheduling)
 ```
 
 ## Complete workflow schema and diagram
 ```yaml
 global_params:
+    platform: enum
+    kubeconfig: str
     es_server: str
     metadata_collection: bool
     metadata_targeted: bool
@@ -91,6 +121,13 @@ global_params:
     uuid: str
     cluster_name: str
     prom_token: str
+
+# TODO: Flesh out what's needed per-platform
+platform_params:
+    auth_key1: str
+    auth_key2: str
+    resource_key1: str
+    resource_key2: str
 
 sut_params:
     network_policy: bool
@@ -106,7 +143,20 @@ sut_params:
     multus:
         enabled: bool
 
+# TODO: Determine how to describe client/server distribution
+workload_geometry:
+    key1:
+    key2:
+
 uperf_workloads:
+    defaults:
+        samples: int
+        pairs: list[int]
+        nthrs: list[int]
+        protos:  list[enum]
+        test_types:  list[enum]
+        sizes:  list[int]
+        runtime: int
     workload: list[dict]
         - dict
         - dict
@@ -118,17 +168,20 @@ graph TD
     global_params --> metadata_plugin
     global_params --> pod_config
 
+    platform_params[platform params] --> pod_config
+
     sut_params[SUT params] --> net_config
 
-    workloads_list[workloads list] --> test_g
+    geometry[workload geometry] --> workloads_g
+
+    workloads_list[workloads list] --> workloads_g
     
-    test_g(workloads test graph) --> scheduling
+    workloads_g(workloads graph) --> scheduling
 
     net_config(pod network config) --> pod_config
     
     metrics_plugin([SUT metrics collection]) --> es
     metadata_plugin([SUT metadata collection]) --> es
-    
     pod_config(k8s pod/job config) --> scheduling
     scheduling(k8s scheduling) --> uperf_servers
     scheduling --> uperf_clients
