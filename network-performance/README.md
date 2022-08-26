@@ -4,7 +4,7 @@
 
 This workflow defines and end-to-end benchmark test for network performance, specifically using the [uperf](https://github.com/uperf/uperf) benchmark utility. This is targeted at Kubernetes environments and includes orchestration of necessary objects via the k8s APIs.
 
-A single top-level schema provides all of the data and metadata constructs required to describe the complete list of benchmark workloads to be run, as well global and SUT parameters that further define the environment within which the test is run and how other parallel data collections will be handled. Finally, all data and metadata from the sequence of tests are post-processed into an approproate document format and indexed into Elasticsearch.
+A single top-level schema provides all of the data and metadata constructs required to describe the complete list of benchmark workloads to be run, as well global and SUT (system under test) parameters that further define the environment within which the test is run and how other parallel data collections will be handled. Finally, all data and metadata from the sequence of tests are post-processed into an approproate document format and indexed into Elasticsearch.
 
 ## Diagram Key
 ```mermaid
@@ -164,24 +164,34 @@ uperf_workloads:
 ```
 ```mermaid
 graph TD
-    global_params[global params] --> metrics_plugin
+    subgraph schema
+    global_params[global params]
+    platform_params[platform params]
+    sut_params[SUT params]
+    geometry[workload geometry]
+    platform_params[platform params]
+    workloads_list[workloads list]
+    end
+
+    global_params --> metrics_plugin
     global_params --> metadata_plugin
     global_params --> pod_config
 
-    platform_params[platform params] --> pod_config
+    platform_params --> pod_config
 
-    sut_params[SUT params] --> net_config
+    sut_params --> net_config
 
-    geometry[workload geometry] --> workloads_g
+    geometry --> workloads_g
 
-    workloads_list[workloads list] --> workloads_g
-    
+    workloads_list --> workloads_g
+
     workloads_g(workloads graph) --> scheduling
 
     net_config(pod network config) --> pod_config
-    
+
     metrics_plugin([SUT metrics collection]) --> es
     metadata_plugin([SUT metadata collection]) --> es
+
     pod_config(k8s pod/job config) --> scheduling
     scheduling(k8s scheduling) --> uperf_servers
     scheduling --> uperf_clients
