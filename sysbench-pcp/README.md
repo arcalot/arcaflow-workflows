@@ -1,0 +1,2 @@
+# Sysbench-PCP Workflow
+This workflow is designed to run a [sysbench](https://github.com/akopytov/sysbench) workload on a local machine while also collecting system runtime load metrics with [PCP pmlogger](https://pcp.io/). In addition, it will collect system metadata with [Ansible gather facts](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/gather_facts_module.html) and will attach a UUID identifier to the output.
