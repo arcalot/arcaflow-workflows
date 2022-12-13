@@ -60,13 +60,13 @@ input:
             type_id: string
 steps:
   pcp:
-    plugin: quay.io/arcalot/arcaflow-plugin-pcp:refactor_d6fb6a9
+    plugin: quay.io/arcalot/arcaflow-plugin-pcp:latest
     step: start-pcp
     input:
       pmlogger_interval: !expr $.input.pmlogger_interval
       run_duration: !expr $.input.sysbench_runtime
   sysbench:
-    plugin: quay.io/arcalot/arcaflow-plugin-sysbench:adding_params_93b4756
+    plugin: quay.io/arcalot/arcaflow-plugin-sysbench:adding_params_ad07a13
     step: sysbenchcpu
     input:
       threads: !expr $.input.sysbench_threads
@@ -76,8 +76,8 @@ steps:
   metadata:
     plugin: quay.io/arcalot/arcaflow-plugin-metadata:latest
     input: {}
-  elasticsearch:
-    plugin: quay.io/arcalot/arcaflow-plugin-elasticsearch:latest
+  opensearch:
+    plugin: quay.io/arcalot/arcaflow-plugin-opensearch:opensearch_e9053eb
     input:
       url: !expr $.input.elastic_host
       username: !expr $.input.elastic_username
@@ -91,3 +91,4 @@ output:
   pcp: !expr $.steps.pcp.outputs.success
   sysbench: !expr $.steps.sysbench.outputs.success
   metadata: !expr $.steps.metadata.outputs.success
+  opensearch: !expr $.steps.opensearch.outputs.success
