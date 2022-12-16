@@ -60,7 +60,7 @@ input:
             type_id: string
 steps:
   pcp:
-    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.1.1
+    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
     step: start-pcp
     input:
       pmlogger_interval: !expr $.input.pmlogger_interval
