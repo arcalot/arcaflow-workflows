@@ -60,25 +60,24 @@ input:
             type_id: string
 steps:
   pcp:
-    plugin: quay.io/dustinblack/arcaflow-plugin-pcp-test:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
     step: start-pcp
     input:
       pmlogger_interval: !expr $.input.pmlogger_interval
       run_duration: !expr $.input.sysbench_runtime
   sysbench:
-    plugin: quay.io/arcalot/arcaflow-plugin-sysbench:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-sysbench:0.1.0
     step: sysbenchcpu
     input:
-      operation: cpu
       threads: !expr $.input.sysbench_threads
       events: !expr $.input.sysbench_events
-      cpumaxprime: !expr $.input.sysbench_cpumaxprime
+      cpu-max-prime: !expr $.input.sysbench_cpumaxprime
       time: !expr $.input.sysbench_runtime
   metadata:
-    plugin: quay.io/arcalot/arcaflow-plugin-metadata:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
     input: {}
-  elasticsearch:
-    plugin: quay.io/arcalot/arcaflow-plugin-elasticsearch:latest
+  opensearch:
+    plugin: quay.io/arcalot/arcaflow-plugin-opensearch:0.1.0
     input:
       url: !expr $.input.elastic_host
       username: !expr $.input.elastic_username
@@ -92,3 +91,4 @@ output:
   pcp: !expr $.steps.pcp.outputs.success
   sysbench: !expr $.steps.sysbench.outputs.success
   metadata: !expr $.steps.metadata.outputs.success
+  opensearch: !expr $.steps.opensearch.outputs.success
