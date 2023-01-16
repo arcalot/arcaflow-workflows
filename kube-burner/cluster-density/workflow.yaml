@@ -1,0 +1,76 @@
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        kubeburner_es_server:
+          display:
+            description: List of ES instances
+            name: es-server
+          type:
+            type_id: string
+        kubeburner_es_index:
+          display:
+            description: The ElasticSearch index used to index the metrics
+            name: es-index
+          type:
+            type_id: string
+        kubeburner_qps:
+          display:
+            description: Max number of queries per second
+            name: qps
+          type:
+            type_id: integer
+        kubeburner_burst:
+          display:
+            description: Maximum burst for throttle
+            name: burst
+          type:
+            type_id: integer
+        kubeburner_loglevel:
+          display:
+            description: logging values- trace, debug, info, warn, error, fatal
+            name: log-level
+          type:
+            type_id: string
+        kubeburner_iterations:
+          display:
+            description: Cluster-density iterations
+            name: iterations
+          type:
+            type_id: integer
+        kubeburner_timeout:
+          display:
+            description: Benchmark timeout
+            name: timeout
+          type:
+            type_id: string
+
+
+steps:
+  uuidgen:
+    plugin: quay.io/arcalot/arcaflow-plugin-utilities:latest
+    step: uuid
+    input: {}
+  kubeburner:
+    plugin: quay.io/harshithumesh/arcaflow-plugin-kube-burner-test:latest
+    step: kube-burner
+    input:
+      workload: cluster-density
+      uuid: !expr $.steps.uuidgen.outputs.success.uuid
+      es_server: !expr $.input.kubeburner_es_server
+      es_index: !expr $.input.kubeburner_es_index
+      qps: !expr $.input.kubeburner_qps
+      burst: !expr $.input.kubeburner_burst
+      log_level: !expr $.input.kubeburner_loglevel
+      iterations: !expr $.input.kubeburner_iterations
+      timeout: !expr $.input.kubeburner_timeout
+  metadata:
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:latest
+    input: {}
+
+output:
+  uuid: !expr $.steps.uuidgen.outputs.success.uuid
+  kubeburner: !expr $.steps.kubeburner.outputs.success
+  metadata: !expr $.steps.metadata.outputs.success

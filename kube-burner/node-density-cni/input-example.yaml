@@ -1,0 +1,9 @@
+# This is a sample input file for the workflow
+
+kubeburner_es_server: 'https://search-perfscale-dev-chmf5l4sh66lvxbnadi4bznl3a.us-west-2.es.amazonaws.com:443'
+kubeburner_es_index: 'ripsaw-kube-burner'
+kubeburner_qps: 20
+kubeburner_burst: 20
+kubeburner_loglevel: 'info'
+kubeburner_pods_per_node: 80
+kubeburner_timeout: '25m'
