@@ -1,7 +1,7 @@
 run_id: example_run_id
 uperf_protocol: tcp
 uperf_nthreads: 1
-uperf_kbytes: 64
+uperf_bytes: 64
 uperf_runtime_seconds: 10
 #Currently the server component requies a separate timeout value. This should be greater than the uperf_runtime_seconds.
 uperf_server_timeout_seconds: 40

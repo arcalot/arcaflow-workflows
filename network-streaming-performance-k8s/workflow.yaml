@@ -32,7 +32,7 @@ input:
             type_id: integer
           default: 1
           required: true
-        uperf_kbytes:
+        uperf_bytes:
           display:
             description: The uperf workload packet size in KiB
             name: uperf size
@@ -72,15 +72,15 @@ input:
             type_id: integer
 steps:
   uuidgen:
-    plugin: quay.io/arcalot/arcaflow-plugin-utilities:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-utilities:0.1.0
     step: uuid
     input: {}
   kubeconfig:
-    plugin: quay.io/arcalot/arcaflow-plugin-kubeconfig:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-kubeconfig:0.1.0
     input:
       kubeconfig: !expr $.input.kubeconfig
   pcp:
-    plugin: quay.io/dustinblack/arcaflow-plugin-pcp-test:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
     step: start-pcp
     input:
       pmlogger_interval: !expr $.input.pmlogger_interval
@@ -97,7 +97,7 @@ steps:
           pluginContainer:
             imagePullPolicy: Always
   uperf_server:
-    plugin: quay.io/arcalot/arcaflow-plugin-uperf:sdk-update_6fe86dd
+    plugin: quay.io/arcalot/arcaflow-plugin-uperf:latest
     step: uperf_server
     deploy:
       type: kubernetes
@@ -136,7 +136,7 @@ steps:
           selector:
             arcaflow: uperf-server
   uperf_client:
-    plugin: quay.io/arcalot/arcaflow-plugin-uperf:sdk-update_6fe86dd
+    plugin: quay.io/arcalot/arcaflow-plugin-uperf:latest
     step: uperf
     deploy:
       type: kubernetes
@@ -163,14 +163,14 @@ steps:
             - duration: !expr $.input.uperf_runtime_seconds
               flowops:
                 - type: "write"
-                  size: !expr $.input.uperf_kbytes
+                  size: !expr $.input.uperf_bytes
                 - type: "read"
-                  size: !expr $.input.uperf_kbytes
+                  size: !expr $.input.uperf_bytes
             - iterations: 1
               flowops:
                 - type: "disconnect"
   metadata:
-    plugin: quay.io/arcalot/arcaflow-plugin-metadata:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
     deploy:
       type: kubernetes
       connection: !expr $.steps.kubeconfig.outputs.success.connection
