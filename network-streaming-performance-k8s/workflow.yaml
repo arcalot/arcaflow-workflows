@@ -72,11 +72,11 @@ input:
             type_id: integer
 steps:
   uuidgen:
-    plugin: quay.io/arcalot/arcaflow-plugin-utilities:0.1.0
+    plugin: quay.io/arcalot/arcaflow-plugin-utilities:atp-comms-fix_fda07a0
     step: uuid
     input: {}
   kubeconfig:
-    plugin: quay.io/arcalot/arcaflow-plugin-kubeconfig:0.1.0
+    plugin: quay.io/arcalot/arcaflow-plugin-kubeconfig:atp-comms-fix_8330396
     input:
       kubeconfig: !expr $.input.kubeconfig
   pcp:
@@ -113,7 +113,7 @@ steps:
     input:
       run_duration: !expr $.input.uperf_server_timeout_seconds
   service:
-    plugin: quay.io/arcalot/arcaflow-plugin-service:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-service:sdk-update
     input:
       connection: !expr $.steps.kubeconfig.outputs.success.connection
       service:
