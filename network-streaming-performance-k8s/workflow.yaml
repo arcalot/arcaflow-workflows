@@ -97,7 +97,7 @@ steps:
           pluginContainer:
             imagePullPolicy: Always
   uperf_server:
-    plugin: quay.io/arcalot/arcaflow-plugin-uperf:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-uperf:0.2.0
     step: uperf_server
     deploy:
       type: kubernetes
@@ -113,7 +113,7 @@ steps:
     input:
       run_duration: !expr $.input.uperf_server_timeout_seconds
   service:
-    plugin: quay.io/arcalot/arcaflow-plugin-service:sdk-update
+    plugin: quay.io/arcalot/arcaflow-plugin-service:0.1.0
     input:
       connection: !expr $.steps.kubeconfig.outputs.success.connection
       service:
@@ -136,7 +136,7 @@ steps:
           selector:
             arcaflow: uperf-server
   uperf_client:
-    plugin: quay.io/arcalot/arcaflow-plugin-uperf:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-uperf:0.2.0
     step: uperf
     deploy:
       type: kubernetes
