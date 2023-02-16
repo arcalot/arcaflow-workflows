@@ -34,7 +34,7 @@ input:
           required: true
         uperf_bytes:
           display:
-            description: The uperf workload packet size in KiB
+            description: The uperf workload packet size in bytes
             name: uperf size
           type:
             type_id: integer
