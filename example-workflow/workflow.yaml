@@ -87,8 +87,14 @@ steps:
         pcp: !expr $.steps.pcp.outputs.success
         sysbench: !expr $.steps.sysbench.outputs.success
         metadata: !expr $.steps.metadata.outputs.success
-output:
-  pcp: !expr $.steps.pcp.outputs.success
-  sysbench: !expr $.steps.sysbench.outputs.success
-  metadata: !expr $.steps.metadata.outputs.success
-  opensearch: !expr $.steps.opensearch.outputs.success
+outputs:
+ success:
+   pcp: !expr $.steps.pcp.outputs.success
+   sysbench: !expr $.steps.sysbench.outputs.success
+   metadata: !expr $.steps.metadata.outputs.success
+   opensearch: !expr $.steps.opensearch.outputs.success
+ no-indexing:
+   pcp: !expr $.steps.pcp.outputs.success
+   sysbench: !expr $.steps.sysbench.outputs.success
+   metadata: !expr $.steps.metadata.outputs.success
+   no-index: !expr $.steps.opensearch.outputs.error
