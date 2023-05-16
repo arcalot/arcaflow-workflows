@@ -1,0 +1,8 @@
+log:
+  level: debug
+deployer:
+  type: podman
+  deployment:
+    host:
+      NetworkMode: "host"
+    imagePullPolicy: Always

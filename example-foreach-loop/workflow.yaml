@@ -1,0 +1,58 @@
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        loop_ids:
+          type:
+            type_id: list
+            items:
+              type_id: object
+              id: loop_id
+              properties:
+                loop_id:
+                  type:
+                    type_id: integer
+                sysbench_threads:
+                  display:
+                    description: The number of threads sysbench will run
+                    name: sysbench threads
+                  type:
+                    type_id: integer
+                sysbench_events:
+                  display:
+                    description: The number of events sysbench will run
+                    name: sysbench events
+                  type:
+                    type_id: integer
+                sysbench_cpumaxprime:
+                  display:
+                    description: The upper limit of the number of prime numbers generated
+                    name: sysbench cpu max primes
+                  type:
+                    type_id: integer
+                sysbench_runtime:
+                  display:
+                    description: The total runtime in seconds for the sysbench tests
+                    name: sysbench runtime seconds
+                  type:
+                    type_id: integer
+steps:
+  uuidgen:
+    plugin: quay.io/arcalot/arcaflow-plugin-utilities:0.2.0
+    step: uuid
+    input: {}
+  metadata:
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
+    input: {}
+  workload_loop:
+    kind: foreach
+    items: !expr $.input.loop_ids
+    workflow: sub-workflow.yaml
+    parallelism: 1
+outputs:
+  success:
+    uuid: !expr $.steps.uuidgen.outputs.success.uuid
+    metadata: !expr $.steps.metadata.outputs.success
+    workloads: !expr $.steps.workload_loop.outputs.success.data
