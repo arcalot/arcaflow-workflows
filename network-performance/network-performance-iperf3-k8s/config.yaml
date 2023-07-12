@@ -4,8 +4,8 @@ logged_outputs:
   error:
     level: debug
 deployer:
-  type: podman
+  type: docker
   deployment:
     host:
       NetworkMode: "host"
-    imagePullPolicy: Always
+    imagePullPolicy: IfNotPresent

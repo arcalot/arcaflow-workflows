@@ -1,0 +1,8 @@
+pcp_pmlogger_interval: 1
+run_id: dblack
+port: 50000
+parallel: 1
+time: 10
+bitrate: 0
+kubeconfig: |
+    <kubeconfig as a YAML multi-line string>

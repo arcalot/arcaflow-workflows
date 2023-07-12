@@ -119,7 +119,7 @@ steps:
           pluginContainer:
             imagePullPolicy: Always
   iperf3_server:
-    plugin: quay.io/arcalot/arcaflow-plugin-iperf3:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-iperf3:0.1.0
     step: server
     input:
       port: !expr $.input.port
@@ -158,7 +158,7 @@ steps:
           selector:
             arcaflow: iperf3-server
   iperf3_client:
-    plugin: quay.io/arcalot/arcaflow-plugin-iperf3:latest
+    plugin: quay.io/arcalot/arcaflow-plugin-iperf3:0.1.0
     step: client
     input:
       host: !expr $.steps.service.outputs.success.name
