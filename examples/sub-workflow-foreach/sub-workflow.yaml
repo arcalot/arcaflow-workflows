@@ -5,42 +5,29 @@ input:
       id: RootObject
       properties:
         loop_id:
-          type:
-            type_id: integer
-        sysbench_threads:
           display:
-            description: The number of threads sysbench will run
-            name: sysbench threads
+            description: ID value for the loop iteration
+            name: Loop ID
+          required: true
           type:
             type_id: integer
-        sysbench_events:
+        nickname:
           display:
-            description: The number of events sysbench will run
-            name: sysbench events
+            description: Just a name
+            name: Name
+          required: true
           type:
-            type_id: integer
-        sysbench_cpumaxprime:
-          display:
-            description: The upper limit of the number of prime numbers generated
-            name: sysbench cpu max primes
-          type:
-            type_id: integer
-        sysbench_runtime:
-          display:
-            description: The total runtime in seconds for the sysbench tests
-            name: sysbench runtime seconds
-          type:
-            type_id: integer
+            type_id: string
+
 steps:
-  sysbench:
-    plugin: quay.io/arcalot/arcaflow-plugin-sysbench:0.1.0
-    step: sysbenchcpu
+  example:
+    plugin: quay.io/arcalot/arcaflow-plugin-example:0.2.0
     input:
-      threads: !expr $.input.sysbench_threads
-      events: !expr $.input.sysbench_events
-      cpu-max-prime: !expr $.input.sysbench_cpumaxprime
-      time: !expr $.input.sysbench_runtime
+      name:
+        _type: nickname
+        nick: !expr $.input.nickname
+
 outputs:
   success:
     loop_id: !expr $.input.loop_id
-    sysbench: !expr $.steps.sysbench.outputs.success
+    beatle: !expr $.steps.example.outputs.success
