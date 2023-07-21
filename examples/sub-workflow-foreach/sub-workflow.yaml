@@ -1,8 +1,8 @@
 input:
-  root: RootObject
+  root: SubRootObject
   objects:
-    RootObject:
-      id: RootObject
+    SubRootObject:
+      id: SubRootObject
       properties:
         loop_id:
           display:

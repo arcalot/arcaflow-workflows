@@ -9,7 +9,7 @@ input:
             type_id: list
             items:
               type_id: object
-              id: loop_id
+              id: SubRootObject
               properties:
                 loop_id:
                   display:

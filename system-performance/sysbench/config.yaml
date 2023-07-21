@@ -6,3 +6,6 @@ deployer:
     host:
       NetworkMode: "host"
     imagePullPolicy: Always
+logged_outputs:
+  error:
+    level: error

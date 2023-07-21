@@ -42,11 +42,11 @@ input:
           required: true
         uperf_runtime_seconds:
           display:
-            description: The time in seconds to run the uperf workload
+            description: The time to run the uperf workload
             name: uperf runtime
           type:
-            type_id: integer
-          default: 10
+            type_id: string
+          default: "10s"
           required: true
         uperf_server_timeout_seconds:
           display:
