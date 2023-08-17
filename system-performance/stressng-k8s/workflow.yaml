@@ -32,77 +32,80 @@ input:
             name: PCP pmlogger collection interval
           type:
             type_id: integer
-        StressNGParams:
-          id: StressNGParams
-          properties:
-            metrics_brief:
-              display:
-                description: Brief version of the metrics output
-                name: brief metrics
-              required: false
-              type:
-                type_id: bool
-            stressors:
-              display: {}
-              required: true
-              type:
-                items:
-                  discriminator_field_name: stressor
-                  type_id: one_of_string
-                  types:
-                    cpu:
-                      display:
-                        description: Parameters for running the cpu stressor
-                        name: CPU Stressor Parameters
-                      id: CpuStressorParams
-                      type_id: ref
-                    hdd:
-                      display:
-                        description: Parameters for running the hdd stressor
-                        name: HDD Stressor Parameters
-                      id: HDDStressorParams
-                      type_id: ref
-                    matrix:
-                      display:
-                        description: Parameters for running the matrix stressor
-                        name: Matrix Stressor Parameters
-                      id: MatrixStressorParams
-                      type_id: ref
-                    mq:
-                      display:
-                        description: Parameters for running the mq stressor
-                        name: MQ Stressor Parameters
-                      id: MqStressorParams
-                      type_id: ref
-                    vm:
-                      display:
-                        description: Parameters for running the vm stressor
-                        name: VM Stressor Parameters
-                      id: VmStressorParams
-                      type_id: ref
-                type_id: list
-            timeout:
-              display:
-                description: Time to run the benchmark test
-                name: Runtime
-              required: true
-              type:
-                type_id: string
-            verbose:
-              display:
-                description: verbose output
-                name: verbose
-              required: false
-              type:
-                type_id: bool
-            workdir:
-              display:
-                description: Path were stress-ng will be executed (example to target
-                  a specific volume)
-                name: Working Dir
-              required: false
-              type:
-                type_id: string 
+        stressng_params:
+          type:
+             type_id: StressNGParams
+    StressNGParams:
+      id: StressNGParams
+      properties:
+        metrics_brief:
+          display:
+            description: Brief version of the metrics output
+            name: brief metrics
+          required: false
+          type:
+            type_id: bool
+        stressors:
+          display: {}
+          required: true
+          type:
+            items:
+              discriminator_field_name: stressor
+              type_id: one_of_string
+              types:
+                cpu:
+                  display:
+                    description: Parameters for running the cpu stressor
+                    name: CPU Stressor Parameters
+                  id: CpuStressorParams
+                  type_id: ref
+                hdd:
+                  display:
+                    description: Parameters for running the hdd stressor
+                    name: HDD Stressor Parameters
+                  id: HDDStressorParams
+                  type_id: ref
+                matrix:
+                  display:
+                    description: Parameters for running the matrix stressor
+                    name: Matrix Stressor Parameters
+                  id: MatrixStressorParams
+                  type_id: ref
+                mq:
+                  display:
+                    description: Parameters for running the mq stressor
+                    name: MQ Stressor Parameters
+                  id: MqStressorParams
+                  type_id: ref
+                vm:
+                  display:
+                    description: Parameters for running the vm stressor
+                    name: VM Stressor Parameters
+                  id: VmStressorParams
+                  type_id: ref
+            type_id: list
+        timeout:
+          display:
+            description: Time to run the benchmark test
+            name: Runtime
+          required: true
+          type:
+            type_id: string
+        verbose:
+          display:
+            description: verbose output
+            name: verbose
+          required: false
+          type:
+            type_id: bool
+        workdir:
+          display:
+            description: Path were stress-ng will be executed (example to target
+              a specific volume)
+            name: Working Dir
+          required: false
+          type:
+            type_id: string 
 
 steps:
   uuidgen:
@@ -135,7 +138,7 @@ steps:
     plugin: quay.io/arcalot/arcaflow-plugin-stressng:0.3.0
     step: workload
     input:
-      StressNGParams: !expr $.input.StressNGParams
+      StressNGParams: !expr $.input.stressng_params
     deploy:
       type: kubernetes
       connection: !expr $.steps.kubeconfig.outputs.success.connection
