@@ -34,7 +34,7 @@ input:
             type_id: integer
         stressng_params:
           type:
-             type_id:
+             type_id: ref
              id: StressNGParams
           required: true
     StressNGParams:
