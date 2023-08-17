@@ -318,23 +318,23 @@ steps:
     input:
       kubeconfig: !expr $.input.kubeconfig
   #TODO Implement signaling once available in the engine
-  pcp:
-    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
-    step: start-pcp
-    input:
-      pmlogger_interval: !expr $.input.pcp_pmlogger_interval
-      run_duration: !expr $.input.time
-    deploy:
-      type: kubernetes
-      connection: !expr $.steps.kubeconfig.outputs.success.connection
-      pod:
-        metadata:
-          namespace: !expr $.input.k8s_namespace
-          labels:
-            arcaflow: pcp
-        spec:
-          pluginContainer:
-            imagePullPolicy: IfNotPresent
+  # pcp:
+  #   plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
+  #   step: start-pcp
+  #   input:
+  #     pmlogger_interval: !expr $.input.pcp_pmlogger_interval
+  #     run_duration: !expr $.input.time
+  #   deploy:
+  #     type: kubernetes
+  #     connection: !expr $.steps.kubeconfig.outputs.success.connection
+  #     pod:
+  #       metadata:
+  #         namespace: !expr $.input.k8s_namespace
+  #         labels:
+  #           arcaflow: pcp
+  #       spec:
+  #         pluginContainer:
+  #           imagePullPolicy: IfNotPresent
   stressng:
     plugin: quay.io/arcalot/arcaflow-plugin-stressng:0.3.0
     step: workload
@@ -370,6 +370,6 @@ outputs:
  success:
   uuid: !expr $.steps.uuidgen.outputs.success.uuid
   run_id: !expr $.input.run_id
-  pcp: !expr $.steps.pcp.outputs.success
+  # pcp: !expr $.steps.pcp.outputs.success
   stressng: !expr $.steps.stressng.outputs.success
   metadata: !expr $.steps.metadata.outputs.success
