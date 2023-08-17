@@ -1,0 +1,171 @@
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        run_id:
+          display:
+            description: Optional string identifier for this workflow run
+            name: Run ID
+          type:
+            type_id: string
+          required: false
+        kubeconfig:
+          display:
+            description: The complete kubeconfig file as a string
+            name: Kubeconfig file contents
+          type:
+            type_id: string
+          required: true
+        k8s_namespace:
+          display:
+            description: The kubernetes namespace to host the containers
+            name: Kubernetes namespace
+          type:
+            type_id: string
+          default: '"default"'
+          required: false
+        pcp_pmlogger_interval:
+          display:
+            description: The logger collection interval for PCP pmlogger
+            name: PCP pmlogger collection interval
+          type:
+            type_id: integer
+        StressNGParams:
+          id: StressNGParams
+          properties:
+            metrics_brief:
+              display:
+                description: Brief version of the metrics output
+                name: brief metrics
+              required: false
+              type:
+                type_id: bool
+            stressors:
+              display: {}
+              required: true
+              type:
+                items:
+                  discriminator_field_name: stressor
+                  type_id: one_of_string
+                  types:
+                    cpu:
+                      display:
+                        description: Parameters for running the cpu stressor
+                        name: CPU Stressor Parameters
+                      id: CpuStressorParams
+                      type_id: ref
+                    hdd:
+                      display:
+                        description: Parameters for running the hdd stressor
+                        name: HDD Stressor Parameters
+                      id: HDDStressorParams
+                      type_id: ref
+                    matrix:
+                      display:
+                        description: Parameters for running the matrix stressor
+                        name: Matrix Stressor Parameters
+                      id: MatrixStressorParams
+                      type_id: ref
+                    mq:
+                      display:
+                        description: Parameters for running the mq stressor
+                        name: MQ Stressor Parameters
+                      id: MqStressorParams
+                      type_id: ref
+                    vm:
+                      display:
+                        description: Parameters for running the vm stressor
+                        name: VM Stressor Parameters
+                      id: VmStressorParams
+                      type_id: ref
+                type_id: list
+            timeout:
+              display:
+                description: Time to run the benchmark test
+                name: Runtime
+              required: true
+              type:
+                type_id: string
+            verbose:
+              display:
+                description: verbose output
+                name: verbose
+              required: false
+              type:
+                type_id: bool
+            workdir:
+              display:
+                description: Path were stress-ng will be executed (example to target
+                  a specific volume)
+                name: Working Dir
+              required: false
+              type:
+                type_id: string 
+
+steps:
+  uuidgen:
+    plugin: quay.io/arcalot/arcaflow-plugin-utilities:0.2.0
+    step: uuid
+    input: {}
+  kubeconfig:
+    plugin: quay.io/arcalot/arcaflow-plugin-kubeconfig:0.2.0
+    input:
+      kubeconfig: !expr $.input.kubeconfig
+  #TODO Implement signaling once available in the engine
+  pcp:
+    plugin: quay.io/arcalot/arcaflow-plugin-pcp:0.2.0
+    step: start-pcp
+    input:
+      pmlogger_interval: !expr $.input.pcp_pmlogger_interval
+      run_duration: !expr $.input.time
+    deploy:
+      type: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: pcp
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+  stressng:
+    plugin: quay.io/arcalot/arcaflow-plugin-stressng:0.3.0
+    step: workload
+    input:
+      StressNGParams: !expr $.input.StressNGParams
+    deploy:
+      type: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: stressng
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+  metadata:
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
+    input: {}
+    deploy:
+      type: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: metadata
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+
+outputs:
+ success:
+  uuid: !expr $.steps.uuidgen.outputs.success.uuid
+  run_id: !expr $.input.run_id
+  pcp: !expr $.steps.pcp.outputs.success
+  stressng: !expr $.steps.stressng.outputs.success
+  metadata: !expr $.steps.metadata.outputs.success
