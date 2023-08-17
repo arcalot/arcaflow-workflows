@@ -34,7 +34,9 @@ input:
             type_id: integer
         stressng_params:
           type:
-             type_id: StressNGParams
+             type_id:
+             id: StressNGParams
+          required: true
     StressNGParams:
       id: StressNGParams
       properties:
@@ -105,7 +107,206 @@ input:
             name: Working Dir
           required: false
           type:
-            type_id: string 
+            type_id: string
+    CpuStressorParams:
+      id: CpuStressorParams
+      properties:
+        cpu_count:
+          display:
+            description: Number of CPU cores to be used (0 means all)
+            name: CPU count
+          required: true
+          type:
+            type_id: integer
+        cpu_load:
+          display:
+            description: load CPU by percentage
+            name: CPU load
+          required: false
+          type:
+            type_id: integer
+        cpu_method:
+          default: '"all"'
+          display:
+            description: fine grained control of which cpu stressors to use (ackermann,
+              cfloat etc.
+            name: CPU stressor method
+          required: false
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    HDDStressorParams:
+      id: HDDStressorParams
+      properties:
+        hdd:
+          display:
+            description: start N workers continually writing, reading and removing
+              temporary files
+            name: HDD workers
+          required: true
+          type:
+            type_id: integer
+        hdd_bytes:
+          display:
+            description: write  N  bytes for each hdd process, the default is
+              1 GB. One can specify the size in units of Bytes, KBytes, MBytes
+              and GBytes using the suffix b, k, m or g.
+            name: Bytes per worker
+          required: true
+          type:
+            type_id: string
+        hdd_write_size:
+          display:
+            description: specify size of each write in bytes. Size can be from
+              1 byte to 4MBOne can specify the size in units of Bytes, KBytes,
+              MBytes using the suffix b, k, m
+            name: Write Size
+          required: true
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    MatrixStressorParams:
+      id: MatrixStressorParams
+      properties:
+        matrix:
+          display:
+            description: Number of Matrix stressors to be run (0 means 1 stressor
+              per CPU
+            name: Matrix count
+          required: true
+          type:
+            type_id: integer
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    MqStressorParams:
+      id: MqStressorParams
+      properties:
+        mq:
+          display:
+            description: Number of MQ stressors to be run (0 means 1 stressor
+              per CPU)
+            name: MQ count
+          required: true
+          type:
+            type_id: integer
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    VmStressorParams:
+      id: VmStressorParams
+      properties:
+        mmap:
+          display:
+            description: Number of stressors per CPU
+            name: mmap
+          required: false
+          type:
+            type_id: string
+        mmap_bytes:
+          display:
+            name: Allocation of memory per stressor
+          required: false
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+        vm:
+          display:
+            description: Number of VM stressors to be run (0 means 1 stressor
+              per CPU
+            name: VM count
+          required: true
+          type:
+            type_id: integer
+        vm_bytes:
+          display:
+            description: Amount of memory a single VM stressor will use
+            name: VM memory
+          required: true
+          type:
+            type_id: string
+
 
 steps:
   uuidgen:
