@@ -18,3 +18,5 @@ StressNGParams:
       hdd: 1
       hdd_bytes: 1g
       hdd_write_size: 1m
+kubeconfig: |
+  <kubeconfig as a multi-line string>
