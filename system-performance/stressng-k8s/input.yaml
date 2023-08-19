@@ -9,7 +9,7 @@ StressNGParams:
       cpu_method: "all"
     - stressor: vm
       vm: 5
-      vm_bytes: "20g"
+      vm_bytes: "1g"
     - stressor: matrix
       matrix: 1
     - stressor: mq
