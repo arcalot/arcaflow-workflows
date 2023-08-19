@@ -1,6 +1,6 @@
 # This is a sample input file for the workflow
 pcp_pmlogger_interval: 1
-StressNGParams:
+stressng_params:
   timeout: 1m
   workdir: /tmp
   stressors:
