@@ -353,7 +353,7 @@ steps:
           pluginContainer:
             imagePullPolicy: IfNotPresent
   metadata:
-    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
+    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.2.0
     input: {}
     deploy:
       type: kubernetes
