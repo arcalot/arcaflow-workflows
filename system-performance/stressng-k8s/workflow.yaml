@@ -10,6 +10,7 @@ input:
             name: Run ID
           type:
             type_id: string
+          default: '"none"'
           required: false
         kubeconfig:
           display:
@@ -336,7 +337,7 @@ steps:
   #         pluginContainer:
   #           imagePullPolicy: IfNotPresent
   stressng:
-    plugin: quay.io/arcalot/arcaflow-plugin-stressng:0.3.0
+    plugin: quay.io/arcalot/arcaflow-plugin-stressng:0.3.1
     step: workload
     input:
       StressNGParams: !expr $.input.stressng_params
