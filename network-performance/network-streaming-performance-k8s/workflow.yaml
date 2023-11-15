@@ -113,7 +113,7 @@ steps:
               #                topologyKey: node-role.kubernetes.io/worker
   uperf_server:
     plugin:
-      src: quay.io/arcalot/arcaflow-plugin-uperf:atp-v3-cancel_db37157
+      src: quay.io/arcalot/arcaflow-plugin-uperf:0.5.0
       deployment_type: image
     step: uperf_server
     stop_if: !expr $.steps.uperf_client.outputs
@@ -151,7 +151,7 @@ steps:
             arcaflow: uperf-server
   uperf_client:
     plugin:
-      src: quay.io/arcalot/arcaflow-plugin-uperf:atp-v3-cancel_db37157
+      src: quay.io/arcalot/arcaflow-plugin-uperf:0.5.0
       deployment_type: image
     step: uperf
     deploy:
