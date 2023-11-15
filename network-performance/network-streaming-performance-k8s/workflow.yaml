@@ -130,14 +130,10 @@ steps:
             imagePullPolicy: Always
     input: {}
   service:
+    # Note: If this step isn't working, make sure that the network mode is set to host here or in the config.yaml
     plugin:
       src: quay.io/arcalot/arcaflow-plugin-service:0.1.0
       deployment_type: image
-    # Need to use host networking for kind cluster
-    deploy:
-      deployer_name: podman
-      podman:
-        networkMode: host
     input:
       connection: !expr $.steps.kubeconfig.outputs.success.connection
       service:
@@ -150,12 +146,6 @@ steps:
              protocol: TCP
            - name: controludp
              port: 20000
-             protocol: UDP
-           - name: workload
-             port: 30000
-             protocol: TCP
-           - name: workloadudp
-             port: 30000
              protocol: UDP
           selector:
             arcaflow: uperf-server

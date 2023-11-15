@@ -5,7 +5,7 @@ deployers:
     deployer_name: docker
     deployment:
       host:
-        NetworkMode: "host"
+        NetworkMode: "host" # Needed local clusters only.
       imagePullPolicy: IfNotPresent
 logged_outputs:
   error:
