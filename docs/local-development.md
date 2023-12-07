@@ -28,7 +28,7 @@ kind: CertificateSigningRequest
 metadata: 
   name: kubeadmin
 spec:
-  request: $(base64 myuser.key | tr -d '\n' )
+  request: $(base64 myuser.csr | tr -d '\n' )
   signerName: kubernetes.io/kube-apiserver-client
   usages:
   - client auth  
