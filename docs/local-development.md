@@ -11,7 +11,7 @@
 
 At the time of writing, 2023-11-20, OpenShift Local (refrenced as `crc`) installation does **not** issue a TLS certificate for any of its default external users. Arcaflow only authenticates with the cluster using mutual TLS, so we need to issue a certificate to a user.
 
-[Issue a certificate](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user) to the `kubeadmin` user with the [cluster-admin role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles). The subject's, `subj`, Common Name denotes the user and the Organization denotes the user's  permissions group.
+[Issue a certificate](https://kubernetes.io/docs/reference/access-authn-authz/certificate-signing-requests/#normal-user) to the `kubeadmin` user with the [cluster-admin role](https://kubernetes.io/docs/reference/access-authn-authz/rbac/#user-facing-roles). The subject's, `subj`, Common Name denotes the user and the Organization denotes the user's permissions group.
 
 
 ```shell
@@ -22,7 +22,7 @@ openssl req -new -key myuser.key -out myuser.csr -subj "/CN=kubeadmin/O=cluster-
 Create a Certificate Signing Request using a shell heredoc.
 
 ```shell
-cat <<EOF | oc apply -f
+cat <<EOF | oc apply -f -
 apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata: 
@@ -43,7 +43,7 @@ oc adm certificate approve kubeadmin
 Get your user's signed certificate.
 
 ```shell
-oc get csr myuser -o jsonpath='{.status.certificate}'| base64 -d > myuser.crt
+oc get csr kubeadmin -o jsonpath='{.status.certificate}'| base64 -d > myuser.crt
 ```
 
 Add the TLS certificate and private key credentials to your kubeconfig.
