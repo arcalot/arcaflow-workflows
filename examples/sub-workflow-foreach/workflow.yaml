@@ -1,3 +1,4 @@
+version: v0.2.0
 input:
   root: RootObject
   objects:
@@ -28,7 +29,9 @@ input:
 
 steps:
   metadata:
-    plugin: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.1.0
     input: {}
   foreach_loop:
     kind: foreach

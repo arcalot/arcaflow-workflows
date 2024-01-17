@@ -3,7 +3,8 @@ log:
 logged_outputs:
   error:
     level: debug
-deployer:
-  type: docker
-  deployment:
-    imagePullPolicy: IfNotPresent
+deployers:
+  image:
+    deployer_name: docker
+    deployment:
+      imagePullPolicy: IfNotPresent

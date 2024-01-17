@@ -1,3 +1,4 @@
+version: v0.2.0
 input:
   root: SubRootObject
   objects:
@@ -21,7 +22,9 @@ input:
 
 steps:
   example:
-    plugin: quay.io/arcalot/arcaflow-plugin-example:0.2.0
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-example:0.2.0
     input:
       name:
         _type: nickname
