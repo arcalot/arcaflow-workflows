@@ -1,0 +1,10 @@
+# This is a sample input file for the workflow
+iterations:
+  - loop_id: 1
+    nickname: John
+  - loop_id: 2
+    nickname: Paul
+  - loop_id: 3
+    nickname: George
+  - loop_id: 4
+    nickname: Ringo

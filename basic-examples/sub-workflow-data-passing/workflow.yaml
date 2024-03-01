@@ -1,0 +1,45 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        iterations:
+          type:
+            type_id: list
+            items:
+              type_id: object
+              id: SubRootObject
+              properties:
+                loop_id:
+                  display:
+                    description: ID value for the loop iteration
+                    name: Loop ID
+                  required: true
+                  type:
+                    type_id: integer
+                nickname:
+                  display:
+                    description: Just a name
+                    name: Name
+                  required: true
+                  type:
+                    type_id: string
+
+steps:
+  foreach_loop_1:
+    kind: foreach
+    items: !expr $.input.iterations
+    workflow: sub-workflow.yaml
+    parallelism: 1
+  foreach_loop_2:
+    kind: foreach
+    items: !expr $.steps.foreach_loop_1.outputs.success.data
+    workflow: sub-workflow-2.yaml
+    parallelism: 1
+
+outputs:
+  success:
+    fab_four: !expr $.steps.foreach_loop_1.outputs.success.data
+    # whodis: !expr $.steps.foreach_loop_2.outputs.success.data
