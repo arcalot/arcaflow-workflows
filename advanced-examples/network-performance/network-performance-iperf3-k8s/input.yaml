@@ -1,0 +1,9 @@
+pcp_pmlogger_interval: 1.0
+run_id: example_run_id
+port: 50000
+parallel: 1
+time: 10
+bitrate: 0
+k8s_namespace: default
+kubeconfig: |
+    <kubeconfig as a YAML multi-line string>

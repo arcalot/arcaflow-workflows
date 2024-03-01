@@ -1,0 +1,36 @@
+version: v0.2.0
+input:
+  root: SubRootObject
+  objects:
+    SubRootObject:
+      id: SubRootObject
+      properties:
+        loop_id:
+          display:
+            description: ID value for the loop iteration
+            name: Loop ID
+          required: true
+          type:
+            type_id: integer
+        nickname:
+          display:
+            description: Just a name
+            name: Name
+          required: true
+          type:
+            type_id: string
+
+steps:
+  example:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.0
+    input:
+      name:
+        _type: nickname
+        nick: !expr $.input.nickname
+
+outputs:
+  success:
+    loop_id: !expr $.input.loop_id
+    beatle: !expr $.steps.example.outputs.success

@@ -1,0 +1,24 @@
+# This is a sample input file for the workflow
+run_id: example_run_id
+pcp_pmlogger_interval: 1.0
+stressng_params:
+  timeout: 1m
+  workdir: /tmp
+  stressors:
+    - stressor: cpu
+      cpu_count: 2
+      cpu_method: "all"
+    - stressor: vm
+      vm: 5
+      vm_bytes: "1g"
+    - stressor: matrix
+      matrix: 1
+    - stressor: mq
+      mq: 2
+    - stressor: hdd
+      hdd: 1
+      hdd_bytes: 1g
+      hdd_write_size: 1m
+k8s_namespace: default
+kubeconfig: |
+  <kubeconfig as a multi-line string>

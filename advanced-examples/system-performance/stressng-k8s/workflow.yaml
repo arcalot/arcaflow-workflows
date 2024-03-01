@@ -1,0 +1,387 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        run_id:
+          display:
+            description: Optional string identifier for this workflow run
+            name: Run ID
+          type:
+            type_id: string
+          default: '"none"'
+          required: false
+        kubeconfig:
+          display:
+            description: The complete kubeconfig file as a string
+            name: Kubeconfig file contents
+          type:
+            type_id: string
+          required: true
+        k8s_namespace:
+          display:
+            description: The kubernetes namespace to host the containers
+            name: Kubernetes namespace
+          type:
+            type_id: string
+          default: '"default"'
+          required: false
+        pcp_pmlogger_interval:
+          display:
+            description: The logger collection interval for PCP pmlogger
+            name: PCP pmlogger collection interval
+          type:
+            type_id: float
+        stressng_params:
+          type:
+             type_id: ref
+             id: StressNGParams
+          required: true
+    StressNGParams:
+      id: StressNGParams
+      properties:
+        metrics_brief:
+          display:
+            description: Brief version of the metrics output
+            name: brief metrics
+          required: false
+          type:
+            type_id: bool
+        stressors:
+          display: {}
+          required: true
+          type:
+            items:
+              discriminator_field_name: stressor
+              type_id: one_of_string
+              types:
+                cpu:
+                  display:
+                    description: Parameters for running the cpu stressor
+                    name: CPU Stressor Parameters
+                  id: CpuStressorParams
+                  type_id: ref
+                hdd:
+                  display:
+                    description: Parameters for running the hdd stressor
+                    name: HDD Stressor Parameters
+                  id: HDDStressorParams
+                  type_id: ref
+                matrix:
+                  display:
+                    description: Parameters for running the matrix stressor
+                    name: Matrix Stressor Parameters
+                  id: MatrixStressorParams
+                  type_id: ref
+                mq:
+                  display:
+                    description: Parameters for running the mq stressor
+                    name: MQ Stressor Parameters
+                  id: MqStressorParams
+                  type_id: ref
+                vm:
+                  display:
+                    description: Parameters for running the vm stressor
+                    name: VM Stressor Parameters
+                  id: VmStressorParams
+                  type_id: ref
+            type_id: list
+        timeout:
+          display:
+            description: Time to run the benchmark test
+            name: Runtime
+          required: true
+          type:
+            type_id: string
+        verbose:
+          display:
+            description: verbose output
+            name: verbose
+          required: false
+          type:
+            type_id: bool
+        workdir:
+          display:
+            description: Path were stress-ng will be executed (example to target
+              a specific volume)
+            name: Working Dir
+          required: false
+          type:
+            type_id: string
+    CpuStressorParams:
+      id: CpuStressorParams
+      properties:
+        cpu_count:
+          display:
+            description: Number of CPU cores to be used (0 means all)
+            name: CPU count
+          required: true
+          type:
+            type_id: integer
+        cpu_load:
+          display:
+            description: load CPU by percentage
+            name: CPU load
+          required: false
+          type:
+            type_id: integer
+        cpu_method:
+          default: '"all"'
+          display:
+            description: fine grained control of which cpu stressors to use (ackermann,
+              cfloat etc.
+            name: CPU stressor method
+          required: false
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    HDDStressorParams:
+      id: HDDStressorParams
+      properties:
+        hdd:
+          display:
+            description: start N workers continually writing, reading and removing
+              temporary files
+            name: HDD workers
+          required: true
+          type:
+            type_id: integer
+        hdd_bytes:
+          display:
+            description: write  N  bytes for each hdd process, the default is
+              1 GB. One can specify the size in units of Bytes, KBytes, MBytes
+              and GBytes using the suffix b, k, m or g.
+            name: Bytes per worker
+          required: true
+          type:
+            type_id: string
+        hdd_write_size:
+          display:
+            description: specify size of each write in bytes. Size can be from
+              1 byte to 4MBOne can specify the size in units of Bytes, KBytes,
+              MBytes using the suffix b, k, m
+            name: Write Size
+          required: true
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    MatrixStressorParams:
+      id: MatrixStressorParams
+      properties:
+        matrix:
+          display:
+            description: Number of Matrix stressors to be run (0 means 1 stressor
+              per CPU
+            name: Matrix count
+          required: true
+          type:
+            type_id: integer
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    MqStressorParams:
+      id: MqStressorParams
+      properties:
+        mq:
+          display:
+            description: Number of MQ stressors to be run (0 means 1 stressor
+              per CPU)
+            name: MQ count
+          required: true
+          type:
+            type_id: integer
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+    VmStressorParams:
+      id: VmStressorParams
+      properties:
+        mmap:
+          display:
+            description: Number of stressors per CPU
+            name: mmap
+          required: false
+          type:
+            type_id: string
+        mmap_bytes:
+          display:
+            name: Allocation of memory per stressor
+          required: false
+          type:
+            type_id: string
+        stressor:
+          display:
+            description: Stressor for the benchmark workload
+            name: Stressor
+          required: true
+          type:
+            type_id: enum_string
+            values:
+              cpu:
+                name: CPU
+              hdd:
+                name: HDD
+              matrix:
+                name: MATRIX
+              mq:
+                name: MQ
+              vm:
+                name: VM
+        vm:
+          display:
+            description: Number of VM stressors to be run (0 means 1 stressor
+              per CPU
+            name: VM count
+          required: true
+          type:
+            type_id: integer
+        vm_bytes:
+          display:
+            description: Amount of memory a single VM stressor will use
+            name: VM memory
+          required: true
+          type:
+            type_id: string
+
+
+steps:
+  uuidgen:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.5.1
+    step: uuid
+    input: {}
+  kubeconfig:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-kubeconfig:0.3.1
+    input:
+      kubeconfig: !expr $.input.kubeconfig
+  pcp:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-pcp:0.8.0
+    step: start-pcp
+    input:
+      pmlogger_interval: !expr $.input.pcp_pmlogger_interval
+    stop_if: !expr $.steps.stressng.outputs
+    deploy:
+      deployer_name: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: pcp
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+  stressng:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-stressng:0.5.0
+    step: workload
+    input:
+      StressNGParams: !expr $.input.stressng_params
+    wait_for: !expr $.steps.pcp.starting.started
+    deploy:
+      deployer_name: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: stressng
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+  metadata:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.4.0
+    input: {}
+    deploy:
+      deployer_name: kubernetes
+      connection: !expr $.steps.kubeconfig.outputs.success.connection
+      pod:
+        metadata:
+          namespace: !expr $.input.k8s_namespace
+          labels:
+            arcaflow: metadata
+        spec:
+          pluginContainer:
+            imagePullPolicy: IfNotPresent
+
+outputs:
+ success:
+  uuid: !expr $.steps.uuidgen.outputs.success.uuid
+  run_id: !expr $.input.run_id
+  pcp: !expr $.steps.pcp.outputs.success
+  stressng: !expr $.steps.stressng.outputs.success
+  metadata: !expr $.steps.metadata.outputs.success
