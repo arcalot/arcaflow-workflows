@@ -102,6 +102,7 @@ steps:
         spec:
           pluginContainer:
             imagePullPolicy: Always
+              #TODO: Implement pod affinity with the uperf client
               #          affinity:
               #            podAffinity:
               #              requiredDuringSchedulingIgnoredDuringExecution:
@@ -155,6 +156,7 @@ steps:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-uperf:0.5.0
     step: uperf
+    wait_for: !expr $.steps.pcp.starting.started
     deploy:
       deployer_name: kubernetes
       connection: !expr $.steps.kubeconfig.outputs.success.connection

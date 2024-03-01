@@ -89,7 +89,6 @@ steps:
     plugin:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-opensearch:0.1.1
-    # step: opensearch
     input:
       url: !expr $.input.elastic_host
       username: !expr $.input.elastic_username

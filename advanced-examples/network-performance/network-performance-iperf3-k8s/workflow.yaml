@@ -107,7 +107,6 @@ steps:
         spec:
           pluginContainer:
             imagePullPolicy: Always 
-  #TODO Implement signaling once available in the engine
   pcp:
     plugin:
       deployment_type: image
@@ -127,6 +126,7 @@ steps:
         spec:
           pluginContainer:
             imagePullPolicy: Always
+              #TODO: Implement pod affinity with the iperf3 client
               #          affinity:
               #            podAffinity:
               #              requiredDuringSchedulingIgnoredDuringExecution:
@@ -157,6 +157,7 @@ steps:
           pluginContainer:
             imagePullPolicy: Always
   service:
+      # Note: If this step isn't working, make sure that the network mode is set to host here or in the config.yaml
     plugin:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-service:0.1.0
@@ -180,15 +181,11 @@ steps:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-iperf3:0.3.0
     step: client
+    wait_for: !expr $.steps.pcp.starting.started
     input:
       host: !expr $.steps.service.outputs.success.name
       port: !expr $.input.port
-        #parallel: !expr $.input.parallel
       time: !expr $.input.time
-        #udp: !expr $.input.udp
-        #length: !expr $.input.length
-        #bitrate: !expr $.input.bitrate
-        #title: !expr $.input.run_id
     deploy:
       deployer_name: kubernetes
       connection: !expr $.steps.kubeconfig.outputs.success.connection

@@ -2,7 +2,7 @@
 
 ## Workflow Description
 
-This workflow simply runs a single step of an example plugin via the default deployer (defined in `config.yaml` as Podman) and reports its success output.
+This workflow simply runs a single step of an example plugin via the default deployer (defined in `config.yaml` as podman) and reports its success output.
 
 ## Files
 

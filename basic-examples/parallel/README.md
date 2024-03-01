@@ -4,7 +4,7 @@
 
 By default, multiple steps in a workflow will be run in parallel if there is no data passing relationship between the steps. 
 
-This workflow runs a metadata collection plugin step and an example plugin step in parallel. All steps are run via the default deployer (defined in `config.yaml` as Podman) and their success outputs are reported.
+This workflow runs a metadata collection plugin step and an example plugin step in parallel. All steps are run via the default deployer (defined in `config.yaml` as podman) and their success outputs are reported.
 
 ## Files
 
