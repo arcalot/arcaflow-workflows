@@ -1,0 +1,26 @@
+---
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties: {}
+steps:
+  example:
+    kind: foreach
+    workflow: subworkflow.yaml
+    items:
+      - name: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
+      - name: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
+      - name: !expr |-
+          'Here\'s an apostrophe and "embedded quotes".'
+      - name: !expr |-
+          "Here's an apostrophe and \"embedded quotes\"."
+      - name: !expr '`Here''s an apostrophe and "embedded quotes".`'
+      - name: !expr |-
+          `Here's an apostrophe and "embedded quotes".`
+outputs:
+  success:
+    message: !expr $.steps.example.outputs.success
+

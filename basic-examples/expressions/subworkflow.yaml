@@ -1,0 +1,20 @@
+version: v0.2.0
+input:
+  root: SubRootObject
+  objects:
+    SubRootObject:
+      id: SubRootObject
+      properties: 
+        name:
+          type:
+            type_id: string
+steps:
+  example:
+    plugin:
+      src: quay.io/arcalot/arcaflow-plugin-template-python
+      deployment_type: image
+    input:
+      name: !expr $.input.name
+outputs:
+  success:
+    name: !expr $.steps.example.outputs.success.message
