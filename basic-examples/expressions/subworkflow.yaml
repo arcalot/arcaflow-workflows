@@ -11,7 +11,7 @@ input:
 steps:
   example:
     plugin:
-      src: quay.io/arcalot/arcaflow-plugin-template-python
+      src: quay.io/arcalot/arcaflow-plugin-template-python:all_d5dd9d6
       deployment_type: image
     input:
       name: !expr $.input.name

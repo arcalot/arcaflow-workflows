@@ -39,5 +39,30 @@ output_data:
       - name: Hello, Here's an apostrophe and "embedded quotes".!
       - name: Hello, Here's an apostrophe and "embedded quotes".!
 output_id: success
+```
 
+## Workflow Diagram
+
+```mermaid
+%% Mermaid markdown workflow
+flowchart LR
+%% Success path
+input-->steps.example.starting
+steps.example.deploy-->steps.example.starting
+steps.example.outputs-->steps.example.outputs.success
+steps.example.starting-->steps.example.starting.started
+steps.example.starting-->steps.example.running
+steps.example.running-->steps.example.outputs
+steps.example.cancelled-->steps.example.outputs
+steps.example.outputs.success-->outputs.success
+%% Error path
+steps.example.deploy_failed-->steps.example.deploy_failed.error
+steps.example.deploy-->steps.example.deploy_failed
+steps.example.outputs-->steps.example.outputs.error
+steps.example.starting-->steps.example.crashed
+steps.example.running-->steps.example.crashed
+steps.example.cancelled-->steps.example.deploy_failed
+steps.example.cancelled-->steps.example.crashed
+steps.example.crashed-->steps.example.crashed.error
+%% Mermaid end
 ```
