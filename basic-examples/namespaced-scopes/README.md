@@ -4,7 +4,7 @@
 
 This workflow uses a namespaced scope in order to infer the workflow input schema from the plugin step.
 
-Both workflows and plugins have input schemas. When creating a workflow, you have the opportunity to define an input schema that is unique from that of its plugins, allowing you to customze the workflow user experience. When you do not have the need to customize the intput schema of a plugin, you can drastically simplify the workflow file by using namespaced scoping. This allows you to reference the schema of a plugin step for use as a workflow schema object.
+Both workflows and plugins have input schemas. When creating a workflow, you have the opportunity to define an input schema that is unique from that of its plugins, allowing you to customze the workflow user experience. When you do not have the need to customize the input schema of a plugin, you can drastically simplify the workflow file by using namespaced scoping. This allows you to reference the schema of a plugin step for use as a workflow schema object.
 
 Without namespaced scoping, you need to define in the workflow `input` section all of the parameters you wish to pass to the workflow user. To represent all features of the example plugin, the workflow input schema might look like this:
 
