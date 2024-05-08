@@ -43,26 +43,44 @@ output_id: success
 
 ## Workflow Diagram
 
-```mermaid
+```mermaid title="workflow.yaml"
+%% Mermaid markdown workflow
+flowchart LR
+%% Success path
+steps.expression_loop.execute-->steps.expression_loop.outputs
+steps.expression_loop.outputs-->steps.expression_loop.outputs.success
+steps.expression_loop.outputs.success-->outputs.success
+%% Error path
+steps.expression_loop.execute-->steps.expression_loop.failed
+steps.expression_loop.failed-->steps.expression_loop.failed.error
+%% Mermaid end
+```
+
+```mermaid title="subworkflow.yaml"
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
 input-->steps.example.starting
+steps.example.cancelled-->steps.example.outputs
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.enabling-->steps.example.disabled
 steps.example.deploy-->steps.example.starting
 steps.example.outputs-->steps.example.outputs.success
+steps.example.running-->steps.example.outputs
 steps.example.starting-->steps.example.starting.started
 steps.example.starting-->steps.example.running
-steps.example.running-->steps.example.outputs
-steps.example.cancelled-->steps.example.outputs
+steps.example.disabled-->steps.example.disabled.output
 steps.example.outputs.success-->outputs.success
 %% Error path
 steps.example.deploy_failed-->steps.example.deploy_failed.error
+steps.example.cancelled-->steps.example.crashed
+steps.example.cancelled-->steps.example.deploy_failed
+steps.example.enabling-->steps.example.crashed
+steps.example.crashed-->steps.example.crashed.error
 steps.example.deploy-->steps.example.deploy_failed
 steps.example.outputs-->steps.example.outputs.error
-steps.example.starting-->steps.example.crashed
 steps.example.running-->steps.example.crashed
-steps.example.cancelled-->steps.example.deploy_failed
-steps.example.cancelled-->steps.example.crashed
-steps.example.crashed-->steps.example.crashed.error
+steps.example.starting-->steps.example.crashed
 %% Mermaid end
 ```
