@@ -1,0 +1,23 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        example_plugin_params:
+          type:
+            type_id: ref
+            id: InputParams
+            namespace: $.steps.example.starting.inputs.input
+
+steps:
+  example:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.0
+    input: !expr $.input.example_plugin_params
+
+outputs:
+ success:
+   example: !expr $.steps.example.outputs.success
