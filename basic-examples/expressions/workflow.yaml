@@ -7,7 +7,7 @@ input:
       id: RootObject
       properties: {}
 steps:
-  example:
+  expression_loop:
     kind: foreach
     workflow: subworkflow.yaml
     items:
@@ -22,4 +22,4 @@ steps:
           `Here's an apostrophe and "embedded quotes".`
 outputs:
   success:
-    message: !expr $.steps.example.outputs.success
+    message: !expr $.steps.expression_loop.outputs.success
