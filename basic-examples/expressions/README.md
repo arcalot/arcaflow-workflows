@@ -1,8 +1,9 @@
-# Expressions
+# String Expressions
 
 ## Workflow Description
 
-This workflow demonstrates example expressions as detailed in our [expression documentation](https://arcalot.io/arcaflow/workflows/expressions/).
+This workflow demonstrates various approaches to injecting strings into your workflow with string expressions as detailed in our [string expressions documentation](https://arcalot.io/arcaflow/workflows/expressions/#literals).
+
 
 ## Files
 
