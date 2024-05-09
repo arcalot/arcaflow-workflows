@@ -2,8 +2,40 @@
 
 ## Workflow Description
 
-This workflow demonstrates various approaches to injecting strings into your workflow with string expressions as detailed in our [string expressions documentation](https://arcalot.io/arcaflow/workflows/expressions/#literals).
+This workflow demonstrates various approaches to injecting string literals into your workflow with string expressions as detailed in our [string expressions documentation](https://arcalot.io/arcaflow/workflows/expressions/#literals).
 
+The `!expr` tag indicates to the YAML processor that the value is an Arca _expression_.
+
+```yaml
+expr!
+```
+
+When expressing string literals in YAML, be aware that YAML has its own rules around the use of quotation marks.
+
+For example, to include a double-quoted string in an expression, you must either add single quotes around the expression
+or use block flow scalars. Inside a single-quoted string, an apostrophe needs to be preceded
+by another apostrophe to indicate that it does not terminate the string.
+
+Inlined with single quotes:
+```
+some_value_1: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
+```
+
+Block Flow Scalar with single quotes:
+```
+some_value_1: !expr |-
+  'Here\'s an apostrophe and "embedded quotes".'
+```
+
+Inlined with double quotes:
+```
+some_value_2: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
+```
+
+Inlined raw string using backticks:
+```
+some_value: !expr '`Here''s an apostrophe and "embedded quotes".`'
+```
 
 ## Files
 

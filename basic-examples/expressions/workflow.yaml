@@ -11,15 +11,15 @@ steps:
     kind: foreach
     workflow: subworkflow.yaml
     items:
-      - name: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
-      - name: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
+      # - name: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
+      # - name: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
       - name: !expr |-
           'Here\'s an apostrophe and "embedded quotes".'
       - name: !expr |-
           "Here's an apostrophe and \"embedded quotes\"."
-      - name: !expr '`Here''s an apostrophe and "embedded quotes".`'
-      - name: !expr |-
-          `Here's an apostrophe and "embedded quotes".`
+      # - name: !expr '`Here''s an apostrophe and "embedded quotes".`'
+      # - name: !expr |-
+      #     `Here's an apostrophe and "embedded quotes".`
 outputs:
   success:
     message: !expr $.steps.expression_loop.outputs.success
