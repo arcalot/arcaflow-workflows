@@ -2,9 +2,16 @@
 
 ## Workflow Description
 
-This workflow demonstrates some example expressions as detailed in our [expression documentation](https://arcalot.io/arcaflow/workflows/expressions/). Arcaflow expressions are a way to reference paths within the workflow or their fields, and/or manipulate the data.
+This workflow demonstrates some example expressions as detailed in our [expression 
+documentation](https://arcalot.io/arcaflow/workflows/expressions/). Arcaflow 
+expressions are a way to reference paths within the workflow or their fields, and they 
+additionally allow you to manipulate the data.
 
-Arcaflow expressions were inspired by JSONPath but have diverged from the syntax. You can use expressions in a workflow YAML like this:
+*Note: Arcaflow expressions were inspired by JSONPath, and may look familar, but 
+expressions have diverged from the JSONPath syntax to enable a rich feature set that is 
+specific to Arcaflow.* 
+
+The basic use of expressions in a workflow YAML looks like this:
 
 ```
 some_value: !expr $.your.expression.here
@@ -12,7 +19,8 @@ some_value: !expr $.your.expression.here
 
 ## Examples
 
-Basic path references are already used across the other example workflows. These include references in a step to an input from the schema:
+Basic path references are already used across the other example workflows. These 
+include references in a step to an input from the schema:
 
 ```
 steps:
@@ -46,7 +54,7 @@ steps:
       src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
     input:
       #Expression with concatenation and string literal
-      name: !expr $.input.name +  ' - \"The Noble Workflow Engine\"'
+      name: !expr $.input.name + ' -- \"The Noble Workflow Engine\"'
 ```
 
 As well as type conversions and math operations:
@@ -59,27 +67,35 @@ steps:
       src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
     input:
       # Expression with type conversions, math operation, and concatenation
-      name: !expr intToString(floatToInt(intToFloat($.input.int_value) * $.input.float_value)) + ' User'
+      name: >
+        !expr intToString(floatToInt(intToFloat($.input.int_value) * 
+        $.input.float_value)) + ' User'
 ```
 
-Int this last expression, the plugin requires a string input. The logical steps here are:
-1.  An integer input is converted to a float in order to make it compatible with a math operation with another float input: `intToFloat($.input_int_value)`
+In this last expression, the plugin requires a string input. The logical steps here are:
+1.  An integer input is converted to a float in order to make it compatible with a math 
+operation with another float input: `intToFloat($.input_int_value)`
 2. The two float values are multiplied: `... * $.input.float_value`
-3. The resulting float is converted to an integer (which rounds towards the nearest integer): `floatToInt(...)`
+3. The resulting float is converted to an integer (truncating the fractional value): 
+`floatToInt(...)`
 4. The integer is converted to a string: `intToString(...)`
 5. Finally, the two strings are concatenated: `... + ' User'`
 
 ## Files
 
-- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run and their data relationships, and the output to present to the user
-- [`input.yaml`](input.yaml) -- The input parameters that the user provides for running the parent workflow
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow engine
+- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to 
+run and their data relationships, and the output to present to the user
+- [`input.yaml`](input.yaml) -- The input parameters that the user provides for running 
+the parent workflow
+- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the 
+Arcaflow engine
                      
 ## Running the Workflow
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+Download a Go binary of the latest version of the Arcaflow engine from: 
+https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
