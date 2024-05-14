@@ -34,14 +34,16 @@ steps:
       src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
     input:
       #Expression with concatenation and string literal
-      name: !expr $.input.name +  ' - \"The Noble Workflow Engine\"'
+      name: !expr $.input.name + ' -- \"The Noble Workflow Engine\"'
   example2:
     plugin:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
     input:
       # Expression with type conversions, math operation, and concatenation
-      name: !expr intToString(floatToInt(intToFloat($.input.int_value) * $.input.float_value)) + ' User'
+      name: >
+        !expr intToString(floatToInt(intToFloat($.input.int_value) * 
+        $.input.float_value)) + ' User'
 
 outputs:
   success:
