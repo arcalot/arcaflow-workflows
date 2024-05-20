@@ -1,25 +1,51 @@
----
 version: v0.2.0
 input:
   root: RootObject
   objects:
     RootObject:
       id: RootObject
-      properties: {}
+      properties:
+        name:
+          display:
+            description: Just a name
+            name: Name
+          required: true
+          type:
+            type_id: string
+        int_value:
+          display:
+            description: Just an integer value
+            name: Integer Value
+          required: true
+          type:
+            type_id: integer
+        float_value:
+          display:
+            description: Just a float value
+            name: Float Value
+          required: true
+          type:
+            type_id: float
+
 steps:
-  example:
-    kind: foreach
-    workflow: subworkflow.yaml
-    items:
-      - name: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
-      - name: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
-      - name: !expr |-
-          'Here\'s an apostrophe and "embedded quotes".'
-      - name: !expr |-
-          "Here's an apostrophe and \"embedded quotes\"."
-      - name: !expr '`Here''s an apostrophe and "embedded quotes".`'
-      - name: !expr |-
-          `Here's an apostrophe and "embedded quotes".`
+  example1:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+    input:
+      #Expression with concatenation and string literal
+      name: !expr $.input.name + ' -- \"The Noble Workflow Engine\"'
+  example2:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+    input:
+      # Expression with type conversions, math operation, and concatenation
+      name: >
+        !expr intToString(floatToInt(intToFloat($.input.int_value) * 
+        $.input.float_value)) + ' User'
+
 outputs:
   success:
-    message: !expr $.steps.example.outputs.success
+    name: !expr $.steps.example1.outputs.success
+    message: !expr $.steps.example2.outputs.success

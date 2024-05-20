@@ -1,8 +1,8 @@
 deployers:
   image:
-    deployer_name: docker
+    deployer_name: podman
 log:
   level: debug    
 logged_outputs:
   error:
-    level: error
+    level: debug
