@@ -2,76 +2,105 @@
 
 ## Workflow Description
 
-This workflow demonstrates various approaches to injecting string literals into your workflow with string expressions as detailed in our [string expressions documentation](https://arcalot.io/arcaflow/workflows/expressions/#literals).
+This workflow demonstrates some example expressions as detailed in our [expression 
+documentation](https://arcalot.io/arcaflow/workflows/expressions/). Arcaflow 
+expressions are a way to reference paths within the workflow or their fields, and they 
+additionally allow you to manipulate the data.
 
-The `!expr` tag indicates to the YAML processor that the value is an Arca _expression_.
+*Note: Arcaflow expressions were inspired by JSONPath, and may look familar, but 
+expressions have diverged from the JSONPath syntax to enable a rich feature set that is 
+specific to Arcaflow.* 
 
-```yaml
-expr!
+The basic use of expressions in a workflow YAML looks like this:
+
 ```
-
-When expressing string literals in YAML, be aware that YAML has its own rules around the use of quotation marks.
-
-For example, to include a double-quoted string in an expression, you must either add single quotes around the expression
-or use block flow scalars. Inside a single-quoted string, an apostrophe needs to be preceded
-by another apostrophe to indicate that it does not terminate the string.
-
-Inlined with single quotes:
-```
-some_value_1: !expr '"Here''s an apostrophe and \"embedded quotes\"."'
+some_value: !expr $.your.expression.here
 ```
 
-Block Flow Scalar with single quotes:
+## Examples
+
+Basic path references are already used across the other example workflows. These 
+include references in a step to an input from the schema:
+
 ```
-some_value_1: !expr |-
-  'Here\'s an apostrophe and "embedded quotes".'
+steps:
+  example:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.0
+    input:
+      name:
+        _type: nickname
+        #Expression for an input path reference
+        nick: !expr $.input.nickname
 ```
 
-Inlined with double quotes:
+As well as references in the output to a step field:
+
 ```
-some_value_2: !expr "'Here\\'s an apostrophe and \"embedded quotes\".'"
+outputs:
+  success:
+    #Expression for a step field reference
+    example: !expr $.steps.example.outputs.success
 ```
 
-Inlined raw string using backticks:
+This workflow demonstrates string literals and concatenation:
+
 ```
-some_value: !expr '`Here''s an apostrophe and "embedded quotes".`'
+steps:
+  example1:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+    input:
+      #Expression with concatenation and string literal
+      name: !expr $.input.name + ' -- \"The Noble Workflow Engine\"'
 ```
+
+As well as type conversions and math operations:
+
+```
+steps:
+  example2:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+    input:
+      # Expression with type conversions, math operation, and concatenation
+      name: >
+        !expr intToString(floatToInt(intToFloat($.input.int_value) * 
+        $.input.float_value)) + ' User'
+```
+
+In this last expression, the plugin requires a string input. The logical steps here are:
+1.  An integer input is converted to a float in order to make it compatible with a math 
+operation with another float input: `intToFloat($.input_int_value)`
+2. The two float values are multiplied: `... * $.input.float_value`
+3. The resulting float is converted to an integer (truncating the fractional value): 
+`floatToInt(...)`
+4. The integer is converted to a string: `intToString(...)`
+5. Finally, the two strings are concatenated: `... + ' User'`
 
 ## Files
 
-- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
-  and their data relationships, and the output to present to the user
-- [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
-  the workflow
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
-  engine
+- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to 
+run and their data relationships, and the output to present to the user
+- [`input.yaml`](input.yaml) -- The input parameters that the user provides for running 
+the parent workflow
+- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the 
+Arcaflow engine
                      
 ## Running the Workflow
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+Download a Go binary of the latest version of the Arcaflow engine from: 
+https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
 $ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
-```
-### Output
-
-Each input expression to the `name` parameter outputs as the same string.
-
-```shell
-output_data:
-  message:
-    data:
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-output_id: success
 ```
 
 ## Workflow Diagram
@@ -80,40 +109,28 @@ output_id: success
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.expression_loop.execute-->steps.expression_loop.outputs
-steps.expression_loop.outputs-->steps.expression_loop.outputs.success
-steps.expression_loop.outputs.success-->outputs.success
-%% Error path
-steps.expression_loop.execute-->steps.expression_loop.failed
-steps.expression_loop.failed-->steps.expression_loop.failed.error
-%% Mermaid end
-```
-
-```mermaid title="subworkflow.yaml"
-%% Mermaid markdown workflow
-flowchart LR
-%% Success path
-input-->steps.example.starting
-steps.example.cancelled-->steps.example.outputs
-steps.example.enabling-->steps.example.enabling.resolved
-steps.example.enabling-->steps.example.starting
-steps.example.enabling-->steps.example.disabled
-steps.example.deploy-->steps.example.starting
-steps.example.outputs-->steps.example.outputs.success
-steps.example.running-->steps.example.outputs
-steps.example.starting-->steps.example.starting.started
-steps.example.starting-->steps.example.running
-steps.example.disabled-->steps.example.disabled.output
-steps.example.outputs.success-->outputs.success
-%% Error path
-steps.example.deploy_failed-->steps.example.deploy_failed.error
-steps.example.cancelled-->steps.example.crashed
-steps.example.cancelled-->steps.example.deploy_failed
-steps.example.enabling-->steps.example.crashed
-steps.example.crashed-->steps.example.crashed.error
-steps.example.deploy-->steps.example.deploy_failed
-steps.example.outputs-->steps.example.outputs.error
-steps.example.running-->steps.example.crashed
-steps.example.starting-->steps.example.crashed
-%% Mermaid end
+steps.example2.outputs-->steps.example2.outputs.success
+steps.example1.deploy-->steps.example1.starting
+steps.example1.outputs.success-->outputs.success
+steps.example2.cancelled-->steps.example2.outputs
+steps.example2.outputs.success-->outputs.success
+steps.example2.running-->steps.example2.outputs
+steps.example1.outputs-->steps.example1.outputs.success
+steps.example1.cancelled-->steps.example1.outputs
+steps.example2.starting-->steps.example2.starting.started
+steps.example2.starting-->steps.example2.running
+input-->steps.example1.starting
+input-->steps.example2.starting
+steps.example2.disabled-->steps.example2.disabled.output
+steps.example1.starting-->steps.example1.starting.started
+steps.example1.starting-->steps.example1.running
+steps.example1.enabling-->steps.example1.enabling.resolved
+steps.example1.enabling-->steps.example1.starting
+steps.example1.enabling-->steps.example1.disabled
+steps.example1.disabled-->steps.example1.disabled.output
+steps.example1.running-->steps.example1.outputs
+steps.example2.enabling-->steps.example2.enabling.resolved
+steps.example2.enabling-->steps.example2.starting
+steps.example2.enabling-->steps.example2.disabled
+steps.example2.deploy-->steps.example2.starting
 ```
