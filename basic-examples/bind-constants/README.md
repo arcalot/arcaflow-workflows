@@ -2,7 +2,11 @@
 
 ## Workflow Description
 
-This workflow demonstrates how to use the Arcaflow builtin function `bindConstants()` to repeat a set of input values with each item in your input list.
+This workflow demonstrates how to use the Arcaflow builtin function `bindConstants()` to repeat a set of input values with each item in your input list using a foreach loop.
+
+### Subworkflow Description
+
+The subworkflow uses a plugin to print the value of the `name` input.  The `loop_id` and `ratio` input values are bundled with this plugin output as this subworkflow's output.
 
 ## Files
 
