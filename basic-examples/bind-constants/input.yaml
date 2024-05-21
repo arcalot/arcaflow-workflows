@@ -1,6 +1,6 @@
 repeated_inputs: 
   name: Matt
-  ratio: .5
+  ratio: 3.14
 iterations:
   - loop_id: 1
   - loop_id: 2
