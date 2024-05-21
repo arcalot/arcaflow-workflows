@@ -1,3 +1,5 @@
+# This workflow accepts fields for an integer and 
+# an object (containing your repeated values).
 version: v0.2.0
 input:
   root: SubRootObject__RepeatedValues
@@ -33,7 +35,7 @@ steps:
   example:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-template-python:all_d5dd9d6
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
     input:
       name: !expr $.input.constant.name
 

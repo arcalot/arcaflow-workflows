@@ -33,11 +33,17 @@ input:
             
 steps:
   foreach_loop:
+    # The plugin will be called once for each entry in $.input.iterations.
     kind: foreach
+    # It will be passed an object which contains two fields, one containing 
+    # the appropriate entry from the iterations list, and one containing 
+    # the repeated input data.
     items: !expr 'bindConstants($.input.iterations, $.input.repeated_inputs)'
     workflow: subworkflow.yaml
     parallelism: 1
 
 outputs:
+  # We expect to see a list of entries containing the output of each iteration.
+  # Each iteration will output the values provided to it for name, ratio, and loop_id.
   success:
     fab_four: !expr $.steps.foreach_loop.outputs.success.data
