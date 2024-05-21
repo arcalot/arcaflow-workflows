@@ -1,5 +1,5 @@
 repeated_inputs: 
-  name: Matt
+  name: mogo
   ratio: 3.14
 iterations:
   - loop_id: 1
