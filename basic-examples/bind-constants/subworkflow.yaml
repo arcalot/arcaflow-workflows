@@ -1,0 +1,44 @@
+version: v0.2.0
+input:
+  root: SubRootObject__RepeatedValues
+  objects:
+    SubRootObject__RepeatedValues:
+      id: SubRootObject__RepeatedValues
+      properties:
+        constant:
+          type:
+            type_id: ref
+            id: RepeatedValues
+        item:
+          type:
+            type_id: ref
+            id: SubRootObject
+    RepeatedValues:
+      id: RepeatedValues
+      properties:
+        name:
+          type:
+            type_id: string
+        ratio:
+          type:
+            type_id: float
+    SubRootObject:
+      id: SubRootObject
+      properties:
+        loop_id:
+          type:
+            type_id: integer
+
+steps:
+  example:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:all_d5dd9d6
+    input:
+      name: !expr $.input.constant.name
+
+outputs:
+  success:
+    loop_id: !expr $.input.item.loop_id
+    ratio: !expr $.input.constant.ratio
+    beatle: !expr $.steps.example.outputs.success

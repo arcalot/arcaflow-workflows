@@ -1,0 +1,43 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties:
+        repeated_inputs:
+          type:
+            type_id: ref
+            id: RepeatedValues
+        iterations:
+          type:
+            type_id: list
+            items:
+              id: SubRootObject
+              type_id: ref
+    RepeatedValues:
+      id: RepeatedValues
+      properties:
+        name:
+          type:
+            type_id: string
+        ratio:
+          type:
+            type_id: float
+    SubRootObject:
+      id: SubRootObject
+      properties:
+        loop_id:
+          type:
+            type_id: integer            
+            
+steps:
+  foreach_loop:
+    kind: foreach
+    items: !expr 'bindConstants($.input.iterations, $.input.repeated_inputs)'
+    workflow: subworkflow.yaml
+    parallelism: 1
+
+outputs:
+  success:
+    fab_four: !expr $.steps.foreach_loop.outputs.success.data
