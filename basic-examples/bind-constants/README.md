@@ -10,12 +10,13 @@ The subworkflow uses a plugin to print the value of the `name` input.  The `loop
 
 ## Files
 
-- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
+- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema and the steps to execute.
   and their data relationships, and the output to present to the user
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow
 - [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
   engine
+- [`subworkflow.yaml](subworkflow.yaml) -- Defines the subworkflow input schema and the plugins to execute.
                      
 ## Running the Workflow
 
