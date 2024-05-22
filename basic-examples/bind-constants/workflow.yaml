@@ -23,7 +23,7 @@ steps:
     # The plugin will be called once for each entry in $.input.iterations.
     kind: foreach
     # It will be passed an object which contains two fields, one containing 
-    # the appropriate entry from the iterations list, and one containing 
+    # the appropriate entry from the iterations list and one containing 
     # the repeated input data.
     items: !expr 'bindConstants($.input.iterations, $.input.repeated_inputs)'
     workflow: subworkflow.yaml

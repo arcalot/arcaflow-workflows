@@ -1,5 +1,8 @@
-# This workflow accepts fields for an integer and 
-# an object (containing your repeated values).
+# This workflow uses a plugin which returns the value of 
+# the name input as its output. The other input values are 
+# bundled with the plugin output as this subworkflow's 
+# output. This workflow serves as a stand-in for what in 
+# a real world scenario would be a more complex operation.
 version: v0.2.0
 input:
   root: SubRootObject__RepeatedValues
