@@ -9,27 +9,14 @@ input:
           type:
             type_id: ref
             id: RepeatedValues
+            namespace: $.steps.foreach_loop.execute.inputs.items
         iterations:
           type:
             type_id: list
             items:
               id: SubRootObject
               type_id: ref
-    RepeatedValues:
-      id: RepeatedValues
-      properties:
-        name:
-          type:
-            type_id: string
-        ratio:
-          type:
-            type_id: float
-    SubRootObject:
-      id: SubRootObject
-      properties:
-        loop_id:
-          type:
-            type_id: integer            
+              namespace: $.steps.foreach_loop.execute.inputs.items
             
 steps:
   foreach_loop:
