@@ -1,18 +1,18 @@
-kubeburner_list:
-  -  kubeconfig_path: 
-     workload: 'cluster-density'
-     uuid: 'a9ddd61b-d12e-4922-86a2-ea17354d80hh'
-     qps: 20
-     burst: 20
-     log_level: 'info'
-     timeout: '25m'
-     iterations: 1
-     churn: 'true'
-     churn_duration: 1s
-     churn_delay: 5s
-     churn_percent: 10 
-     alerting: 'true'
-     gc: 'true'
+# kubeburner_list:
+#   -  kubeconfig_path: '/home/mleader/.kube/config'
+#      workload: 'cluster-density'
+#      uuid: 'a9ddd61b-d12e-4922-86a2-ea17354d80hh'
+#      qps: 20
+#      burst: 20
+#      log_level: 'info'
+#      timeout: '25m'
+#      iterations: 1
+#      churn: 'true'
+#      churn_duration: 1s
+#      churn_delay: 5s
+#      churn_percent: 10 
+#      alerting: 'true'
+#      gc: 'true'
 
 pod_chaos_list:
   - name_pattern: ^nginx-.*$

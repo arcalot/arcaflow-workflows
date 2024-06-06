@@ -8,3 +8,8 @@ deployers:
     deployer_name: podman
     deployment:
       imagePullPolicy: IfNotPresent
+  python:
+    deployer_name: python
+    modulePullPolicy: Always
+    pythonPath: /home/mleader/.cache/pypoetry/virtualenvs/arcaflow-plugin-kill-pod-2rBSPLV3-py3.9/bin/python
+    workdir: /tmp
