@@ -178,12 +178,6 @@ input:
             type_id: string
 
 steps:
-  # kubeconfig:
-  #   plugin:
-  #     deployment_type: image
-  #     src: quay.io/arcalot/arcaflow-plugin-kubeconfig:0.3.1
-  #   input:
-  #     kubeconfig: !expr 'readFile($.input.kubeconfig)'
   kubeburner:
     plugin: 
       deployment_type: image
@@ -197,17 +191,7 @@ steps:
       churn: !expr $.input.churn
       churn_duration: !expr $.input.churn_duration
       churn_delay: !expr $.input.churn_delay
-      # deploy:
-      #   deployer_name: kubernetes
-      #   connection: !expr $.steps.kubeconfig.outputs.success.connection
-      #   pod:
-      #     metadata:
-      #       namespace: !expr $.input.k8s_namespace
-      #       labels:
-      #         arcaflow: metadata
-      #     spec:
-      #       pluginContainer:
-      #         imagePullPolicy: IfNotPresent
+
 outputs:
   success:
     burner: !expr $.steps.kubeburner.outputs.success

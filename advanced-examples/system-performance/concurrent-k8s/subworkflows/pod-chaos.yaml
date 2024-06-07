@@ -90,7 +90,8 @@ steps:
       src: arcaflow-plugin-kill-pod@git+https://github.com/mfleader/arcaflow-plugin-kill-pod.git@bce0a4d12ff9abbc410ce931371b4338243678be
     input:
       namespace_pattern: !expr $.input.namespace_pattern
-      name_pattern: !expr $.input.name_pattern
+      # name_pattern: !expr $.input.name_pattern
+      label_selector: !expr $.input.label_selector
       kubeconfig_path: /home/mleader/.kube/config
     deploy:
       deployer_name: python
