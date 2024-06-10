@@ -95,4 +95,3 @@ steps:
 outputs:
   success:
     stressng: !expr $.steps.stressng.outputs.success
-

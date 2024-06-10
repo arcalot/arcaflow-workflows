@@ -195,4 +195,3 @@ steps:
 outputs:
   success:
     burner: !expr $.steps.kubeburner.outputs.success
-
