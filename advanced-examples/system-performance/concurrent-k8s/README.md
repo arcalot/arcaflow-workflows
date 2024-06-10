@@ -21,6 +21,16 @@ In addition to the stress-ng workload, the workflow collects system metrics with
 
 ### Workflow Execution
 
+Install Python, at least `3.9`.
+
+Add the path to your Python interpreter to `config.yaml` as the value for `pythonPath` as shown here.
+
+```yaml
+deployers:
+  python:
+    pythonPath: ...
+```
+
 Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:

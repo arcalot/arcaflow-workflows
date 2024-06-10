@@ -24,7 +24,7 @@ pod_chaos_list:
 hog_cpu_list:
   - kubeconfig_path: /home/mleader/.kube/config
     cpu_count: 1
-    cpu_load_percentage: 40
+    cpu_load_percentage: 20
     cpu_method: all
     duration: 1
     namespace: default
