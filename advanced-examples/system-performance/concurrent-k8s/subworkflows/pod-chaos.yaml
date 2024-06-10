@@ -5,6 +5,13 @@ input:
     KillPodConfig:
       id: KillPodConfig
       properties:
+        kubeconfig_path:
+          display:
+            description: file path to Openshift cluster kubeconfig
+            name: kubeconfig_path
+          required: true
+          type:
+            type_id: string              
         backoff:
           default: '1'
           display:
@@ -92,7 +99,7 @@ steps:
       namespace_pattern: !expr $.input.namespace_pattern
       # name_pattern: !expr $.input.name_pattern
       label_selector: !expr $.input.label_selector
-      kubeconfig_path: /home/mleader/.kube/config
+      kubeconfig_path: !expr $.input.kubeconfig_path
     deploy:
       deployer_name: python
       modulePullPolicy: Always

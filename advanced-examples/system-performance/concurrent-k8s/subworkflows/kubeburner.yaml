@@ -5,6 +5,20 @@ input:
     KubeBurner:
       id: KubeBurner
       properties:
+        # kubeconfig:
+        #   display:
+        #     description: Openshift cluster kubeconfig file content as a string
+        #     name: kubeconfig
+        #   required: true
+        #   type:
+        #     type_id: string
+        kubeconfig_path:
+          display:
+            description: file path to Openshift cluster kubeconfig
+            name: kubeconfig_path
+          required: true
+          type:
+            type_id: string        
         alerting:
           default: '"true"'
           display:
@@ -84,20 +98,6 @@ input:
           required: false
           type:
             type_id: integer
-        # kubeconfig:
-        #   display:
-        #     description: Openshift cluster kubeconfig file content as a string
-        #     name: kubeconfig
-        #   required: true
-        #   type:
-        #     type_id: string
-        kubeconfig_path:
-          display:
-            description: Openshift cluster kubeconfig file content as a string
-            name: kubeconfig_path
-          required: true
-          type:
-            type_id: string        
         local_indexing:
           default: '"false"'
           display:
