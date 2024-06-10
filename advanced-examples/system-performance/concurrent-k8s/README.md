@@ -1,12 +1,11 @@
-# System Performance Tests With stress-ng on Kubernetes
+# OpenShift Shenanigans
 
 ***NOTE: This is an example only and may not work out-of-the-box.***
 
 ## Workflow Description
 
-This workflow runs a [stress-ng](https://github.com/ColinIanKing/stress-ng) workload plugin on a Kubernetes target system.
+Given a target OpenShift cluster, this workflow executes a [kube-burner plugin](https://github.com/redhat-performance/arcaflow-plugin-kube-burner) workflow to place a load on the cluster, repeatedly removes a targeted pod at a given time frequency with the [kill-pod plugin](https://github.com/krkn-chaos/arcaflow-plugin-kill-pod), and runs a [stress-ng](https://github.com/ColinIanKing/stress-ng) CPU workload on the cluster.
 
-In addition to the stress-ng workload, the workflow collects system metrics with [Performance Co-pilot](https://pcp.io/), and collects system metadata using Ansible [gather facts](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/gather_facts_module.html).
 
 ## Files
 
