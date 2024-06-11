@@ -1,0 +1,34 @@
+kubeburner_list:
+  -  kubeconfig_path: '/home/mleader/.kube/config'
+     workload: 'cluster-density'
+     uuid: 'a9ddd61b-d12e-4922-86a2-ea17354d80hh'
+     qps: 20
+     burst: 20
+     log_level: 'info'
+     timeout: '1m'
+     iterations: 1
+     churn: 'true'
+     churn_duration: 1s
+     churn_delay: 1s
+     churn_percent: 10 
+     alerting: 'true'
+     gc: 'true'
+
+pod_chaos_list:
+  - kubeconfig_path: /home/mleader/.kube/config
+    namespace_pattern: ^openshift-etcd$
+    label_selector: k8s-app=etcd
+    kill: 1
+    krkn_pod_recovery_time: 1
+
+hog_cpu_list:
+  - kubeconfig_path: /home/mleader/.kube/config
+    cpu_count: 1
+    cpu_load_percentage: 20
+    cpu_method: all
+    duration: 1
+    namespace: default
+    # set the node selector as a key-value pair eg.
+    # node_selector:
+    #  kubernetes.io/hostname: kind-worker2
+    node_selector: {}
