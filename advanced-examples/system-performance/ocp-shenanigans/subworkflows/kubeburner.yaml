@@ -5,13 +5,6 @@ input:
     KubeBurner:
       id: KubeBurner
       properties:
-        # kubeconfig:
-        #   display:
-        #     description: Openshift cluster kubeconfig file content as a string
-        #     name: kubeconfig
-        #   required: true
-        #   type:
-        #     type_id: string
         kubeconfig_path:
           display:
             description: file path to Openshift cluster kubeconfig
@@ -141,7 +134,7 @@ input:
         probes_period:
           default: '10'
           display:
-            description: Perf app readiness/livenes probes period in seconds
+            description: Perf app readiness/liveliness probes period in seconds
             name: probes-period
           required: false
           type:
