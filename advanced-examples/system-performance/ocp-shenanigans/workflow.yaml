@@ -33,19 +33,19 @@ steps:
     items: !expr $.input.kubeburner_list
     workflow: subworkflows/kubeburner.yaml
     parallelism: 1
-  # pod_chaos_wf:
-  #   kind: foreach
-  #   items: !expr $.input.pod_chaos_list
-  #   workflow: subworkflows/pod-chaos.yaml
-  #   parallelism: 1
-  # hog_cpu_wf:
-  #   kind: foreach
-  #   items: !expr $.input.hog_cpu_list
-  #   workflow: subworkflows/hog-cpu.yaml
-  #   parallelism: 1
+  pod_chaos_wf:
+    kind: foreach
+    items: !expr $.input.pod_chaos_list
+    workflow: subworkflows/pod-chaos.yaml
+    parallelism: 1
+  hog_cpu_wf:
+    kind: foreach
+    items: !expr $.input.hog_cpu_list
+    workflow: subworkflows/hog-cpu.yaml
+    parallelism: 1
 
 outputs:
   success:
     kubeburner: !expr $.steps.kubeburner_wf.outputs.success.data
-    # pod_chaos: !expr $.steps.pod_chaos_wf.outputs.success.data
-    # hog_cpu: !expr $.steps.hog_cpu_wf.outputs.success.data
+    pod_chaos: !expr $.steps.pod_chaos_wf.outputs.success.data
+    hog_cpu: !expr $.steps.hog_cpu_wf.outputs.success.data
