@@ -1,6 +1,6 @@
 # Arcaflow Example Workflows
 
-Workflows created and maintained by the Arcaflow team. The `basic-examples` show how to use particular features of workflows. The `advanced-examples` provide more real-world use cases.
+Workflows created and maintained by the Arcaflow team. The [basic-examples](basic-examples) show how to use particular features of workflows. The [advanced-examples](advanced-examples) provide more real-world use cases.
 
 ## Contributing
 
