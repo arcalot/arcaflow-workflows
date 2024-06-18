@@ -1,11 +1,11 @@
 version: v0.2.0
 input:
-  root: StressngWorkflowInput__PcpInputParams
+  root: StressNGParams__PcpInputParams
   objects:
-    StressngWorkflowInput__PcpInputParams:
-      id: StressngWorkflowInput__PcpInputParams
+    StressNGParams__PcpInputParams:
+      id: StressNGParams__PcpInputParams
       properties:
-        pcp_params:
+        constant:
           display:
             description: The parameters for the PCP workload
             name: PCP parameters
@@ -13,7 +13,7 @@ input:
             type_id: ref
             id: PcpInputParams
             namespace: $.steps.pcp.starting.inputs.input
-        stressng_params:
+        item:
           display:
             description: The parameters for the stressng workload
             name: stressng parameters
@@ -45,7 +45,7 @@ steps:
           NetworkMode: host
           Binds:
             - /etc/system-release:/etc/system-release
-    input: !expr $.input.pcp_params
+    input: !expr $.input.constant
     # Stop the PCP data collection after the post_wait step succeeds
     stop_if: !expr $.steps.post_wait.outputs.success
 
@@ -66,7 +66,7 @@ steps:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-stressng:new-workloads_df0d7aa
     step: workload
-    input: !expr $.input.stressng_params
+    input: !expr $.input.item
     # Don't start this step until after the pre_wait has succeeded
     wait_for: !expr $.steps.pre_wait.outputs.success
 
