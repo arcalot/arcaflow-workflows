@@ -1,0 +1,10 @@
+log:
+  level: debug
+logged_outputs:
+  error:
+    level: debug
+deployers:
+  image:
+    deployer_name: podman
+    deployment:
+      imagePullPolicy: IfNotPresent
