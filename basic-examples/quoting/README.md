@@ -27,7 +27,7 @@ Download a Go binary of the latest version of the Arcaflow engine from: https://
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
-$ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
+$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
 ```
 ### Output
 
@@ -44,5 +44,37 @@ output_data:
       - name: Hello, Here's an apostrophe and "embedded quotes".!
       - name: Hello, Here's an apostrophe and "embedded quotes".!
 output_id: success
+```
 
+## Workflow Diagram 
+
+### Parent workflow
+
+```mermaid
+%% Mermaid markdown workflow
+flowchart LR
+%% Success path
+steps.example.execute-->steps.example.outputs
+steps.example.outputs-->steps.example.outputs.success
+steps.example.outputs.success-->outputs.success
+```
+
+### Sub-Workflow
+
+```mermaid
+%% Mermaid markdown workflow
+flowchart LR
+%% Success path
+steps.example.running-->steps.example.outputs
+steps.example.cancelled-->steps.example.outputs
+steps.example.starting-->steps.example.running
+steps.example.starting-->steps.example.starting.started
+steps.example.disabled-->steps.example.disabled.output
+steps.example.outputs.success-->outputs.success
+steps.example.outputs-->steps.example.outputs.success
+steps.example.deploy-->steps.example.starting
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.enabling-->steps.example.disabled
+input-->steps.example.starting
 ```

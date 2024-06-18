@@ -152,7 +152,7 @@ Download a Go binary of the latest version of the Arcaflow engine from: https://
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
-$ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
+$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram
@@ -160,12 +160,16 @@ $ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.example.outputs.success-->outputs.success
-steps.example.deploy-->steps.example.starting
-input-->steps.example.starting
-steps.example.outputs-->steps.example.outputs.success
-steps.example.starting-->steps.example.running
 steps.example.starting-->steps.example.starting.started
-steps.example.cancelled-->steps.example.outputs
+steps.example.starting-->steps.example.running
+steps.example.disabled-->steps.example.disabled.output
+steps.example.enabling-->steps.example.disabled
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.outputs.success-->outputs.success
 steps.example.running-->steps.example.outputs
+steps.example.outputs-->steps.example.outputs.success
+input-->steps.example.starting
+steps.example.deploy-->steps.example.starting
+steps.example.cancelled-->steps.example.outputs
 ```
