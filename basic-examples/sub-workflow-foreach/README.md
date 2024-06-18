@@ -10,6 +10,7 @@ This workflow runs a metadata collection plugin step in the parent workflow, and
 
 - [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
   and their data relationships, and the output to present to the user
+- [`subworkflow.yaml`](subworkflow.yaml) -- Defines the subworkflow input schema and the plugins to execute.
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow
 - [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
