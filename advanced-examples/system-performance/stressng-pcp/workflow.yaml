@@ -33,19 +33,14 @@ input:
           type:
             type_id: list
             items:
-              type_id: object
-              id: StressngWorkflowInput
-              properties:
-                stressng_params:
-                  type:
-                    type_id: ref
-                    id: StressNGParams
-                    namespace: $.steps.stressng_loop.execute.inputs.items.stressng_params
+              id: StressNGParams
+              type_id: ref
+              namespace: $.steps.stressng_loop.execute.inputs.items.item
         pcp_params:
           type:
             type_id: ref
             id: PcpInputParams
-            namespace: $.steps.stressng_loop.execute.inputs.items.pcp_params
+            namespace: $.steps.stressng_loop.execute.inputs.items.constant
 
 steps:
   # Generate a global-scope UUID for the workflow

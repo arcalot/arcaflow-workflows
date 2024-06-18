@@ -7,64 +7,43 @@ pcp_params:
   pmlogger_metrics: kernel.uname, hinv.ncpu, mem.physmem, disk.dev.scheduler, kernel.cpu.util.user, kernel.cpu.util.nice, kernel.cpu.util.sys, kernel.cpu.util.wait, kernel.cpu.util.steal, kernel.cpu.util.idle, kernel.percpu.cpu.vuser, kernel.percpu.cpu.nice, kernel.percpu.cpu.sys, kernel.percpu.cpu.wait, kernel.percpu.cpu.steal, kernel.percpu.cpu.idle, disk.all.total, disk.all.read, disk.all.write, disk.all.blkread, disk.all.blkwrite, mem.freemem, mem.util.available, mem.util.used, mem.util.bufmem, mem.util.cached, mem.util.active, mem.util.inactive, mem.util.dirty, swap.in, swap.pagesin, swap.out, swap.pagesout, network.interface.in.packets, network.interface.out.packets, network.interface.in.bytes, network.interface.out.bytes
 stressng_tests:
   # CPU tests
-  - stressng_params:
-      timeout: 10
-      stressors:
-        - stressor: cpu
-          workers: 1
-  # - stressng_params:
-  #     timeout: 60
-  #     stressors:
-  #       - stressor: cpu
-  #         workers: 2
-  # - stressng_params:
-  #     timeout: 60
-  #     stressors:
-  #       - stressor: cpu
-  #         workers: 4
-  # - stressng_params:
-  #     timeout: 60
-  #     stressors:
-  #       - stressor: cpu
-  #         workers: 8
+  - timeout: 10
+    stressors:
+      - stressor: cpu
+        workers: 1
+  - timeout: 10
+    stressors:
+      - stressor: cpu
+        workers: 2
+  - timeout: 10
+    stressors:
+      - stressor: cpu
+        workers: 4
   # Memory tests
-  - stressng_params:
-      timeout: 10
-      page-in: True
-      stressors:
-        - stressor: vm
-          workers: 1
-          vm-bytes: 1.5G
-        - stressor: mmap
-          workers: 1
-          mmap-bytes: 1.5G
-  # - stressng_params:
-  #     timeout: 60
-  #     page-in: True
-  #     stressors:
-  #       - stressor: vm
-  #         workers: 2
-  #         vm-bytes: 3G
-  #       - stressor: mmap
-  #         workers: 2
-  #         mmap-bytes: 3G
-  # - stressng_params:
-  #     timeout: 60
-  #     page-in: True
-  #     stressors:
-  #       - stressor: vm
-  #         workers: 4
-  #         vm-bytes: 6G
-  #       - stressor: mmap
-  #         workers: 4
-  #         mmap-bytes: 6G
-  # - stressng_params:
-  #     timeout: 60
-  #     page-in: True
-  #     stressors:
-  #       - stressor: vm
-  #         workers: 4
-  #         vm-bytes: 12G
-  #       - stressor: mmap
-  #         workers: 4
-  #         mmap-bytes: 12G
+  - timeout: 10
+    page-in: True
+    stressors:
+      - stressor: vm
+        workers: 1
+        vm-bytes: 1G
+      - stressor: mmap
+        workers: 1
+        mmap-bytes: 1G
+  - timeout: 10
+    page-in: True
+    stressors:
+      - stressor: vm
+        workers: 2
+        vm-bytes: 2G
+      - stressor: mmap
+        workers: 2
+        mmap-bytes: 2G
+  - timeout: 10
+    page-in: True
+    stressors:
+      - stressor: vm
+        workers: 4
+        vm-bytes: 4G
+      - stressor: mmap
+        workers: 4
+        mmap-bytes: 4G
