@@ -1,4 +1,4 @@
-# Serial Workflow
+# Explicit Serial Workflow
 
 ## Workflow Description
 
