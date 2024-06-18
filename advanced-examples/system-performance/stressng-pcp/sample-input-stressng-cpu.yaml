@@ -1,0 +1,9 @@
+stressng_params:
+  timeout: 10
+  stressors:
+    - stressor: cpu
+      workers: 4
+pcp_params:
+  pmlogger_interval: 1.0
+  pmlogger_metrics: "kernel.all.load kernel.percpu.cpu.vuser kernel.percpu.cpu.sys kernel.percpu.cpu.wait.total mem.util.used mem.vmstat.pgpgin mem.vmstat.pgpgout swap.pagesin swap.pagesout"
+  flatten: true
