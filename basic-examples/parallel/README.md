@@ -24,7 +24,7 @@ Download a Go binary of the latest version of the Arcaflow engine from: https://
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
-$ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
+$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram
@@ -32,18 +32,27 @@ $ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.metadata.starting-->steps.metadata.starting.started
-steps.metadata.starting-->steps.metadata.running
-steps.example.outputs-->steps.example.outputs.success
-steps.example.cancelled-->steps.example.outputs
 steps.example.deploy-->steps.example.starting
-steps.metadata.running-->steps.metadata.outputs
-steps.metadata.cancelled-->steps.metadata.outputs
+steps.metadata.enabling-->steps.metadata.enabling.resolved
+steps.metadata.enabling-->steps.metadata.starting
+steps.metadata.enabling-->steps.metadata.disabled
+steps.example.disabled-->steps.example.disabled.output
+steps.metadata.disabled-->steps.metadata.disabled.output
 steps.example.running-->steps.example.outputs
-input-->steps.example.starting
-steps.example.outputs.success-->outputs.success
-steps.metadata.outputs-->steps.metadata.outputs.success
 steps.example.starting-->steps.example.starting.started
 steps.example.starting-->steps.example.running
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.enabling-->steps.example.disabled
+steps.metadata.starting-->steps.metadata.starting.started
+steps.metadata.starting-->steps.metadata.running
+steps.metadata.cancelled-->steps.metadata.outputs
+steps.metadata.outputs.success-->outputs.success
+input-->steps.example.starting
+steps.example.outputs-->steps.example.outputs.success
+steps.example.cancelled-->steps.example.outputs
+steps.metadata.outputs-->steps.metadata.outputs.success
+steps.metadata.running-->steps.metadata.outputs
 steps.metadata.deploy-->steps.metadata.starting
+steps.example.outputs.success-->outputs.success
 ```

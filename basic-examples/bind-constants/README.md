@@ -27,7 +27,7 @@ Download a Go binary of the latest version of the Arcaflow engine from: https://
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
-$ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
+$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram 
@@ -42,39 +42,23 @@ input-->steps.foreach_loop.execute
 steps.foreach_loop.execute-->steps.foreach_loop.outputs
 steps.foreach_loop.outputs-->steps.foreach_loop.outputs.success
 steps.foreach_loop.outputs.success-->outputs.success
-%% Error path
-steps.foreach_loop.execute-->steps.foreach_loop.failed
-steps.foreach_loop.failed-->steps.foreach_loop.failed.error
-%% Mermaid end
-
 ```
 ### Sub-Workflow
 ```mermaid
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.example.starting-->steps.example.starting.started
-steps.example.starting-->steps.example.running
-steps.example.enabling-->steps.example.enabling.resolved
-steps.example.enabling-->steps.example.starting
-steps.example.enabling-->steps.example.disabled
-steps.example.cancelled-->steps.example.outputs
 input-->steps.example.starting
 input-->outputs.success
-steps.example.disabled-->steps.example.disabled.output
 steps.example.running-->steps.example.outputs
 steps.example.outputs.success-->outputs.success
 steps.example.outputs-->steps.example.outputs.success
 steps.example.deploy-->steps.example.starting
-%% Error path
-steps.example.starting-->steps.example.crashed
-steps.example.enabling-->steps.example.crashed
-steps.example.cancelled-->steps.example.crashed
-steps.example.cancelled-->steps.example.deploy_failed
-steps.example.running-->steps.example.crashed
-steps.example.deploy_failed-->steps.example.deploy_failed.error
-steps.example.outputs-->steps.example.outputs.error
-steps.example.crashed-->steps.example.crashed.error
-steps.example.deploy-->steps.example.deploy_failed
-%% Mermaid end
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.enabling-->steps.example.disabled
+steps.example.cancelled-->steps.example.outputs
+steps.example.starting-->steps.example.running
+steps.example.starting-->steps.example.starting.started
+steps.example.disabled-->steps.example.disabled.output
 ```

@@ -30,4 +30,5 @@ steps:
 
 outputs:
  success:
+   metadata: !expr $.steps.metadata.outputs.success
    example: !expr $.steps.example.outputs.success

@@ -24,39 +24,51 @@ Download a Go binary of the latest version of the Arcaflow engine from: https://
 Run the workflow:
 ```
 $ export WFPATH=<path to this workflow directory>
-$ arcaflow -input ${WFPATH}/input.yaml -config ${WFPATH}/config.yaml -context ${WFPATH}
+$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
 ```
 
-## Workflow Diagram (single loop iteration)
+## Workflow Diagram
+
 ### Parent workflow
+
 ```mermaid
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
+steps.metadata.running-->steps.metadata.outputs
 steps.metadata.deploy-->steps.metadata.starting
-steps.metadata.cancelled-->steps.metadata.outputs
-steps.foreach_loop.outputs.success-->outputs.success
 steps.metadata.starting-->steps.metadata.starting.started
 steps.metadata.starting-->steps.metadata.running
-steps.foreach_loop.execute-->steps.foreach_loop.outputs
-steps.foreach_loop.outputs-->steps.foreach_loop.outputs.success
-steps.metadata.outputs.success-->outputs.success
-input-->steps.foreach_loop.execute
-steps.metadata.running-->steps.metadata.outputs
 steps.metadata.outputs-->steps.metadata.outputs.success
+steps.foreach_loop.outputs-->steps.foreach_loop.outputs.success
+steps.metadata.enabling-->steps.metadata.enabling.resolved
+steps.metadata.enabling-->steps.metadata.starting
+steps.metadata.enabling-->steps.metadata.disabled
+steps.metadata.disabled-->steps.metadata.disabled.output
+input-->steps.foreach_loop.execute
+steps.foreach_loop.outputs.success-->outputs.success
+steps.foreach_loop.execute-->steps.foreach_loop.outputs
+steps.metadata.cancelled-->steps.metadata.outputs
+steps.metadata.outputs.success-->outputs.success
 ```
+
 ### Sub-Workflow
+
 ```mermaid
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
+steps.example.outputs-->steps.example.outputs.success
+steps.example.deploy-->steps.example.starting
 input-->steps.example.starting
 input-->outputs.success
+steps.example.disabled-->steps.example.disabled.output
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.enabling-->steps.example.disabled
+steps.example.cancelled-->steps.example.outputs
 steps.example.running-->steps.example.outputs
-steps.example.outputs-->steps.example.outputs.success
+steps.example.outputs.success-->outputs.success
 steps.example.starting-->steps.example.starting.started
 steps.example.starting-->steps.example.running
-steps.example.deploy-->steps.example.starting
-steps.example.cancelled-->steps.example.outputs
-steps.example.outputs.success-->outputs.success
 ```
