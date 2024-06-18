@@ -1,10 +1,10 @@
-stressng_params:
+item:
   timeout: 10
   stressors:
     - stressor: vm
       workers: 4
       vm-bytes: 10G
-pcp_params:
+constant:
   pmlogger_interval: 1.0
   pmlogger_metrics: "kernel.all.load kernel.percpu.cpu.vuser kernel.percpu.cpu.sys kernel.percpu.cpu.wait.total mem.util.used mem.vmstat.pgpgin mem.vmstat.pgpgout swap.pagesin swap.pagesout"
   flatten: true
