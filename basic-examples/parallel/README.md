@@ -2,9 +2,9 @@
 
 ## Workflow Description
 
-By default, multiple steps in a workflow will be run in parallel if there is no data passing relationship between the steps. 
+By default, multiple steps in a workflow will be run in parallel if there is no data dependency between the steps. 
 
-This workflow runs a metadata collection plugin step and an example plugin step in parallel. All steps are run via the default deployer (defined in `config.yaml` as podman) and their success outputs are reported.
+This workflow runs a metadata collection plugin step and an example plugin step in parallel. All steps are run via the default deployer (defined in `config.yaml`), and their success outputs are reported.
 
 ## Files
 
@@ -19,12 +19,11 @@ This workflow runs a metadata collection plugin step and an example plugin step 
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
-$ export WFPATH=<path to this workflow directory>
-$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
+$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram

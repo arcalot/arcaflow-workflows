@@ -38,16 +38,9 @@ steps:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-pcp:0.9.0
     step: start-pcp
-    deploy:
-      deployer_name: podman
-      deployment:
-        host:
-          NetworkMode: host
-          Binds:
-            - /etc/system-release:/etc/system-release
     input: !expr $.input.constant
-    # Stop the PCP data collection after the post_wait step succeeds
-    stop_if: !expr $.steps.post_wait.outputs.success
+    # Stop the PCP data collection after the post_wait step completes
+    stop_if: !expr $.steps.post_wait.outputs
 
   # Wait the specified milliseconds before starting the stress-ng workload
   pre_wait:
@@ -64,11 +57,11 @@ steps:
   stressng:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-stressng:new-workloads_df0d7aa
+      src: quay.io/arcalot/arcaflow-plugin-stressng:0.7.0
     step: workload
     input: !expr $.input.item
-    # Don't start this step until after the pre_wait has succeeded
-    wait_for: !expr $.steps.pre_wait.outputs.success
+    # Don't start this step until after the pre_wait has completed
+    wait_for: !expr $.steps.pre_wait.outputs
 
   # Wait the specified milliseconds after the stress-ng workload succeeds
   post_wait:
@@ -78,8 +71,8 @@ steps:
     step: wait
     input:
       wait_time_ms: 10000
-    # Don't start this step until after the stressng step succeeds
-    wait_for: !expr $.steps.stressng.outputs.success
+    # Don't start this step until after the stressng step completes
+    wait_for: !expr $.steps.stressng.outputs
 
 outputs:
   success:

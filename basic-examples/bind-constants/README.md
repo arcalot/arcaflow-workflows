@@ -22,12 +22,11 @@ The subworkflow uses a plugin to print the value of the `name` input.  The `loop
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
-$ export WFPATH=<path to this workflow directory>
-$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
+$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram 
