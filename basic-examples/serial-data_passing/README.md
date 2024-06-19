@@ -3,13 +3,13 @@
 ## Workflow Description
 
 By default, multiple steps in a workflow will be run in parallel if there is no data
-passing relationship between the steps. When the input of a step relies on the output
+dependency between the steps. When the input of a step relies on the output
 of another step, an implicit serial relationshp is created.
 
 This workflow runs a metadata collection plugin step and then an example plugin (in this
 case using the template plugin) that takes its `name` input from the `fqdn` output
 returned by the metadata plugin. All steps are run via the default deployer (defined in
-`config.yaml` as podman) and their success outputs are reported.
+`config.yaml`), and their success outputs are reported.
 
 *Note: This workflow does not require any input.*
 
@@ -24,13 +24,12 @@ Arcaflow engine
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from:
-https://github.com/arcalot/arcaflow-engine/releases
+Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+
  
 Run the workflow:
 ```
-$ export WFPATH=<path to this workflow directory>
-$ arcaflow --context ${WFPATH} --config config.yaml 
+$ arcaflow --context <workflow directory> --config config.yaml 
 ```
 
 ## Workflow Diagram

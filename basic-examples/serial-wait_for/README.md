@@ -2,9 +2,9 @@
 
 ## Workflow Description
 
-By default, multiple steps in a workflow will be run in parallel if there is no data passing relationship between the steps. In some cases, you may want to run steps in a serial manner when there is no such relationship between the steps. For this case, there is the `wait_for` option, which tells a step explicitly to wait for a condition from another step.
+By default, multiple steps in a workflow will be run in parallel if there is no data dependency between the steps. In some cases, you may want to run steps in a serial manner when there is no such relationship between the steps. For this case, there is the `wait_for` option, which tells a step explicitly to wait for a condition from another step.
 
-This workflow runs a metadata collection plugin step, and then an example plugin that waits for the success of the metadata collection before starting. All steps are run via the default deployer (defined in `config.yaml` as podman) and their success outputs are reported.
+This workflow runs a metadata collection plugin step, and then an example plugin that waits for the success of the metadata collection before starting. All steps are run via the default deployer (defined in `config.yaml`), and their success outputs are reported.
 
 ## Files
 
@@ -19,12 +19,11 @@ This workflow runs a metadata collection plugin step, and then an example plugin
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
-$ export WFPATH=<path to this workflow directory>
-$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
+$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
 ```
 
 ## Workflow Diagram

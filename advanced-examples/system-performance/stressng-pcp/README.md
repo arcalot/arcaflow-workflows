@@ -1,11 +1,5 @@
 # Stress-NG + PCP Workflow
 
-## Requirements
-
-- [Arcaflow engine](https://github.com/arcalot/arcaflow-engine/releases) v0.17.0-beta2+
-- Local container runtime, either Podman or Docker
-  - *Note: Podman is configured as the default in the [`config.yaml`](config.yaml) file*
-
 ## Workflow Description
 
 The primary [`workflow.yaml`](workflow.yaml) is designed to collect system metadata with
@@ -31,15 +25,15 @@ plugins and sub-workflow to run and their data relationships, and the output to 
 to the user
 - [`stressng-workflow.yaml`](stressng-workflow.yaml) -- Defines the inner workflow input
 schema, plugins, and output for stress-ng tests. This workflow is looped over by the
-`workflow.yaml`, but it can also be used stand-alone.
+`workflow.yaml`, but it can also be used stand-alone
 - [`input.yaml`](sample-input.yaml) -- Example input parameters that the user provides
-for running the outer workflow.
+for running the outer workflow
 - [`sample-input-stressng-cpu.yaml`](sample-input-stressng-cpu.yaml) -- Example CPU test
-input parameters that can be used with the inner `stressng-workflow.yaml` workflow
-stand-alone.
+input parameters that can be used to run the `stressng-workflow.yaml` workflow as a
+stand-alone workflow
 - [`sample-input-stressng-memory.yaml`](sample-input-stressng-memory.yaml) -- Example
-memory test input parameters that can be used with the inner `stressng-workflow.yaml`
-workflow stand-alone.
+memory test input parameters that can be used to run the `stressng-workflow.yaml`
+workflow as a stand-alone workflow
 - [`config.yaml`](config.yaml) -- Global config parameters that are passed to the
 Arcaflow engine
                      
@@ -47,13 +41,11 @@ Arcaflow engine
 
 ### Workflow Execution
 
-Download a Go binary of the latest version of the Arcaflow engine from:
-https://github.com/arcalot/arcaflow-engine/releases
+Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
 ```
-$ export WFPATH=<path to this workflow directory>
-$ arcaflow --context ${WFPATH} --input input.yaml --config config.yaml
+$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
 ```
 
 Run the sub-workflow as a stand-alone workflow:

@@ -4,6 +4,12 @@ item:
     - stressor: cpu
       workers: 4
 constant:
-  pmlogger_interval: 1.0
-  pmlogger_metrics: "kernel.all.load kernel.percpu.cpu.vuser kernel.percpu.cpu.sys kernel.percpu.cpu.wait.total mem.util.used mem.vmstat.pgpgin mem.vmstat.pgpgout swap.pagesin swap.pagesout"
   flatten: true
+  pmlogger_interval: 2.0
+  pmlogger_metrics: |
+    kernel.cpu.util.user, kernel.cpu.util.nice, kernel.cpu.util.sys,
+    kernel.cpu.util.wait, kernel.cpu.util.steal, kernel.cpu.util.idle, disk.all.total,
+    disk.all.read, disk.all.write, disk.all.blkread, disk.all.blkwrite, mem.freemem,
+    mem.util.available, mem.util.used, mem.util.bufmem, mem.util.cached,
+    mem.util.active, mem.util.inactive, mem.util.dirty, swap.in, swap.pagesin,
+    swap.out, swap.pagesout

@@ -1,12 +1,8 @@
+#deployers:
+#  image:
+#    deployer_name: podman
 log:
-  level: debug
-deployers:
-  image:
-    deployer_name: podman
-    deployment:
-      host:
-        NetworkMode: "host" # Needed local clusters only.
-      imagePullPolicy: IfNotPresent
+  level: debug    
 logged_outputs:
   error:
     level: debug

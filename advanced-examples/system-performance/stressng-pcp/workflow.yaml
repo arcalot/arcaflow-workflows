@@ -7,27 +7,33 @@ input:
       properties:
         run_id:
           display:
-            description: A unique run identifier for tracking groups of workflows triggered by external automation/CI
+            description: |
+              A unique run identifier for tracking groups of workflows triggered by
+              external automation/CI
             name: Run ID
           type:
             type_id: string
-          default: "\"\""
+          default: "''"
           required: false
         user:
           display:
-            description: A user name identifier for tracking groups of workflows triggered by external automation/CI
+            description: |
+              A user name identifier for tracking groups of workflows triggered by
+              external automation/CI
             name: User
           type:
             type_id: string
-          default: "\"\""
+          default: "''"
           required: false
         description:
           display:
-            description: A description of the workflow being run
+            description: |
+              A user-defined description of the workflow being run, to be included in
+              the workflow output
             name: Description
           type:
             type_id: string
-          default: "\"\""
+          default: "''"
           required: false
         stressng_tests:
           type:
@@ -57,6 +63,8 @@ steps:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
     deploy:
+      # NOTE: If you change the config to use a different deployer, you should also
+      # update the deployer_name here.
       deployer_name: podman
       deployment:
         host:
@@ -79,8 +87,8 @@ steps:
     items: !expr 'bindConstants($.input.stressng_tests, $.input.pcp_params)'
     workflow: stressng-workflow.yaml
     parallelism: 1
-    # Don't start this step until after the start_timestamp step succeeds
-    wait_for: !expr $.steps.start_timestamp.outputs.success
+    # Don't start this step until after the start_timestamp step completes
+    wait_for: !expr $.steps.start_timestamp.outputs
 
   # Set the global-scope end timestamp metadata
   end_timestamp:
@@ -89,8 +97,8 @@ steps:
       src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
     step: timestamp
     input: {}
-    # Don't start this step until after the stressng_loop step succeeds
-    wait_for: !expr $.steps.stressng_loop.outputs.success
+    # Don't start this step until after the stressng_loop step completes
+    wait_for: !expr $.steps.stressng_loop.outputs
 
 outputs:
   success:
