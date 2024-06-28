@@ -1,0 +1,24 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties: {}
+
+steps:
+  metadata:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.4.0
+    input: {}
+  example:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+    input:
+      name: !expr $.steps.metadata.outputs.success.fqdn
+
+outputs:
+ success:
+   example: !expr $.steps.example.outputs.success

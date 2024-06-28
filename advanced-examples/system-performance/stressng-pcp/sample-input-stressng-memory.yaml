@@ -1,0 +1,16 @@
+item:
+  timeout: 10
+  stressors:
+    - stressor: vm
+      workers: 4
+      vm-bytes: 10G
+constant:
+  flatten: true
+  pmlogger_interval: 2.0
+  pmlogger_metrics: |
+    kernel.cpu.util.user, kernel.cpu.util.nice, kernel.cpu.util.sys,
+    kernel.cpu.util.wait, kernel.cpu.util.steal, kernel.cpu.util.idle, disk.all.total,
+    disk.all.read, disk.all.write, disk.all.blkread, disk.all.blkwrite, mem.freemem,
+    mem.util.available, mem.util.used, mem.util.bufmem, mem.util.cached,
+    mem.util.active, mem.util.inactive, mem.util.dirty, swap.in, swap.pagesin,
+    swap.out, swap.pagesout
