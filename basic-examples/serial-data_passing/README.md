@@ -11,51 +11,60 @@ case using the template plugin) that takes its `name` input from the `fqdn` outp
 returned by the metadata plugin. All steps are run via the default deployer (defined in
 `config.yaml`), and their success outputs are reported.
 
-*Note: This workflow does not require any input.*
+> [!NOTE]
+> This workflow does not require an input file.
 
 ## Files
 
 - [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to
-run and their data relationships, and the output to present to the user
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the
-Arcaflow engine
+  run and their data relationships, and the output to present to the user
                      
 ## Running the Workflow
 
-### Workflow Execution
-
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
 
+> [!TIP]
+> Because this workflow takes no input and uses the default `workflow.yaml` file name,
+> we do not need to pass any parameters to the `arcaflow` command.
  
 Run the workflow:
+```bash
+arcaflow
 ```
-$ arcaflow --context <workflow directory> --config config.yaml 
+
+Example output:
+```yaml
+output_data:
+    example:
+        message: Hello, 6db47e48105d!
+output_id: success
 ```
 
 ## Workflow Diagram
 ```mermaid
+%% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.metadata.cancelled-->steps.metadata.outputs
-steps.example.running-->steps.example.outputs
 steps.metadata.disabled-->steps.metadata.disabled.output
-steps.example.starting-->steps.example.starting.started
-steps.example.starting-->steps.example.running
-steps.metadata.deploy-->steps.metadata.starting
 steps.metadata.outputs-->steps.metadata.outputs.success
-steps.example.outputs-->steps.example.outputs.success
-steps.example.deploy-->steps.example.starting
-steps.example.outputs.success-->outputs.success
-steps.metadata.running-->steps.metadata.outputs
+steps.example.enabling-->steps.example.disabled
+steps.example.enabling-->steps.example.enabling.resolved
+steps.example.enabling-->steps.example.starting
+steps.example.disabled-->steps.example.disabled.output
+steps.metadata.deploy-->steps.metadata.starting
+steps.metadata.outputs.success-->steps.example.starting
 steps.example.cancelled-->steps.example.outputs
 steps.metadata.enabling-->steps.metadata.enabling.resolved
 steps.metadata.enabling-->steps.metadata.starting
 steps.metadata.enabling-->steps.metadata.disabled
+steps.metadata.running-->steps.metadata.outputs
+steps.example.running-->steps.example.outputs
+steps.example.starting-->steps.example.starting.started
+steps.example.starting-->steps.example.running
 steps.metadata.starting-->steps.metadata.starting.started
 steps.metadata.starting-->steps.metadata.running
-steps.metadata.outputs.success-->steps.example.starting
-steps.example.disabled-->steps.example.disabled.output
-steps.example.enabling-->steps.example.enabling.resolved
-steps.example.enabling-->steps.example.starting
-steps.example.enabling-->steps.example.disabled
+steps.example.outputs-->steps.example.outputs.success
+steps.example.outputs.success-->outputs.success
+steps.metadata.cancelled-->steps.metadata.outputs
+steps.example.deploy-->steps.example.starting
 ```
