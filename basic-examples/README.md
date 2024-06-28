@@ -14,3 +14,15 @@ input items, executing the sub-workflow for each one
 - [Binding Repeated Values](bind-constants) - Demonstrates the use of the builtin
 function `bindConstants()` to repeat a set of input values with each item in your input
 list using a foreach loop
+
+> [!NOTE]
+> The Arcaflow engine executes the steps of a workflow via *deployers* for one or more
+> container platorms, such as
+> [Podman](https://github.com/arcalot/arcaflow-engine-deployer-podman),
+> [Docker](https://github.com/arcalot/arcaflow-engine-deployer-docker),
+> or [Kubernetes](https://github.com/arcalot/arcaflow-engine-deployer-kubernetes).
+> Arcaflow's default deployer is Podman. To override this default, a
+> [configuration file](https://arcalot.io/arcaflow/running/setup/#configuration) must be
+> used with the `arcaflow` command. A basic [Docker config file](/docker-config.yaml) is
+> included in this repo's root directory and can be used with any of these example
+> workflows via the `--config` parameter.
