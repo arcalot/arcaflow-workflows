@@ -7,6 +7,9 @@ This workflow demonstrates example expressions with quotes as detailed in our [e
 There are multiple types of quoting supported. Quotes must pass through YAML's syntax; both the expression language and YAML itself process the quotes and escaped characters, and the input must be valid for both. Consider using YAML "Block Flow Scalar" format to prevent YAML from changing your quotes, and using Arcaflow expression "raw" strings (with back-ticks `) to not need to escape the quotes. In addition, you can use single or double quotes.
 
 Look at this example to see about the various ways to create the same input.
+  
+> [!NOTE]
+> This workflow does not require an input file.
 
 ## Files
 
@@ -15,33 +18,33 @@ Look at this example to see about the various ways to create the same input.
 - [`subworkflow.yaml`](subworkflow.yaml) -- A simple workflow invocable by the main workflow which returns its input as its output.
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow. The workflow input file is empty in this example because the input for the subworkflow is constructed from literals by the main workflow.
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
-  engine
-                     
+                   
+
 ## Running the Workflow
 
-### Workflow Execution
-
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
+
+> [!TIP]
+> Because this workflow takes no input and uses the default `workflow.yaml` file name,
+> we do not need to pass any parameters to the `arcaflow` command.
+
  
 Run the workflow:
+```bash
+arcaflow
 ```
-$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
-```
-### Output
 
-Each input expression to the `name` parameter outputs as the same string.
-
+Each input expression to the `name` parameter outputs as the same string:
 ```yaml
 output_data:
-  message:
-    data:
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
-      - name: Hello, Here's an apostrophe and "embedded quotes".!
+    message:
+        data:
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
+            - name: Hello, Here's an apostrophe and "embedded quotes".!
 output_id: success
 ```
 
@@ -58,22 +61,22 @@ steps.example.outputs-->steps.example.outputs.success
 steps.example.outputs.success-->outputs.success
 ```
 
-### Sub-Workflow
+### Subworkflow
 
 ```mermaid
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
 steps.example.running-->steps.example.outputs
+steps.example.outputs-->steps.example.outputs.success
+steps.example.outputs.success-->outputs.success
+steps.example.deploy-->steps.example.starting
+steps.example.disabled-->steps.example.disabled.output
 steps.example.cancelled-->steps.example.outputs
+input-->steps.example.starting
 steps.example.starting-->steps.example.running
 steps.example.starting-->steps.example.starting.started
-steps.example.disabled-->steps.example.disabled.output
-steps.example.outputs.success-->outputs.success
-steps.example.outputs-->steps.example.outputs.success
-steps.example.deploy-->steps.example.starting
 steps.example.enabling-->steps.example.enabling.resolved
 steps.example.enabling-->steps.example.starting
 steps.example.enabling-->steps.example.disabled
-input-->steps.example.starting
 ```

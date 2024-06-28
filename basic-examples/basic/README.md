@@ -2,7 +2,7 @@
 
 ## Workflow Description
 
-This workflow simply runs a single step of an example plugin via the default deployer (defined in `config.yaml`) and reports its success output.
+This workflow simply runs a single step of an example plugin and reports its success output.
 
 ## Files
 
@@ -10,18 +10,22 @@ This workflow simply runs a single step of an example plugin via the default dep
   and their data relationships, and the output to present to the user
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
-  engine
                      
 ## Running the Workflow
-
-### Workflow Execution
 
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
+```bash
+arcaflow --input input.yaml 
 ```
-$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml 
+
+Example output:
+```yaml
+output_data:
+    example:
+        message: Hello, Arcalot!
+output_id: success
 ```
 
 ## Workflow Diagram
@@ -29,16 +33,16 @@ $ arcaflow --context <workflow directory> --input input.yaml --config config.yam
 %% Mermaid markdown workflow
 flowchart LR
 %% Success path
-steps.example.starting-->steps.example.starting.started
-steps.example.starting-->steps.example.running
 steps.example.running-->steps.example.outputs
-steps.example.enabling-->steps.example.enabling.resolved
+steps.example.outputs.success-->outputs.success
 steps.example.enabling-->steps.example.starting
 steps.example.enabling-->steps.example.disabled
+steps.example.enabling-->steps.example.enabling.resolved
 steps.example.outputs-->steps.example.outputs.success
-input-->steps.example.starting
-steps.example.outputs.success-->outputs.success
-steps.example.disabled-->steps.example.disabled.output
-steps.example.deploy-->steps.example.starting
 steps.example.cancelled-->steps.example.outputs
+steps.example.disabled-->steps.example.disabled.output
+input-->steps.example.starting
+steps.example.deploy-->steps.example.starting
+steps.example.starting-->steps.example.starting.started
+steps.example.starting-->steps.example.running
 ```
