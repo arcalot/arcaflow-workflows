@@ -1,5 +1,6 @@
 # Basic Workflow Examples
 - [Basic](basic) - Runs a single plugin step
+- [Config File](config-file) - Demonstrates the use of an Arcaflow config file
 - [Parallel](parallel) - Demonstrates the default parallel step behavior
 - [Serial Data Passing](serial-data_passing) - Demonstrates implicit step serialization
 through data passing between steps
