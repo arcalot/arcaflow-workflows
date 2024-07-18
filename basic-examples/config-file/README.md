@@ -2,13 +2,13 @@
 
 ## Workflow Description
 
-This workflow runs a simple metadata collection step that uses Ansible's gather facts
-plugin, and returns only the system hostname. In order to collect the metadata in the
-host context rather than the container context, the step container must be run with host
-networking mode. This example enables host networking mode as a global default for the
-workflow via an
-[Arcaflow config file](https://arcalot.io/arcaflow/running/setup/#configuration) in the
-[`config.yaml`](config.yaml) file.
+This workflow runs a simple metadata collection step that returns the system hostname.
+By default this returns the hostname of the **container** context -- in order to collect
+the metadata in the host context, the step container must be run with host networking
+mode. This example demonstrates how to enable host networking mode as a global default
+for the workflow via an [Arcaflow config
+file](https://arcalot.io/arcaflow/running/setup/#configuration), showing the effects of
+running with and without specifying the [`config.yaml`](config.yaml) file.
 
 > [!NOTE]
 > This workflow does not require an input file.
@@ -21,8 +21,6 @@ workflow via an
   Arcaflow engine
                      
 ## Running the Workflow
-
-### Workflow Execution
 
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
 
@@ -50,7 +48,7 @@ arcaflow --config config.yaml
 The output is the hostname of the container host system, for example:
 ```yaml
 output_data:
-    hostname: my.system.hostname
+    hostname: my.hostname.example
 output_id: success
 ```
 

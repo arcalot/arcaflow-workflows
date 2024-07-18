@@ -16,8 +16,6 @@ Look at this example to see about the various ways to create the same input.
 - [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
   and their data relationships, and the output to present to the user. Step `example` then runs the subworkflow provided in `subworkflow.yaml` with a list of inputs. For each string in the list of foreach inputs, the subworkflow runs with the string as its input; this workflow then outputs a list of the values returned from each invocation of the subworkflow.
 - [`subworkflow.yaml`](subworkflow.yaml) -- A simple workflow invocable by the main workflow which returns its input as its output.
-- [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
-  the workflow. The workflow input file is empty in this example because the input for the subworkflow is constructed from literals by the main workflow.
                    
 
 ## Running the Workflow

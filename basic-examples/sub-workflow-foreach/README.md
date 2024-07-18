@@ -4,12 +4,12 @@
 
 A workflow can iterate over a sub-workflow in a for-each manner by providing a list of
 input objects compatible with the sub-workflow's schema and specifying `kind: foreach`
-in the step parameters. The Arcaflow expression language is used to pass the compatible
-input list object to the `items` parameter of the step.
+in the step parameters. The Arcaflow expression language is used to specify the input
+list to the `items` parameter of the step.
 
 This workflow runs a metadata collection plugin step in the parent workflow, and then a
 loop of sub-workflows that each run an example plugin. All steps are run via the default
-deployer (defined in `config.yaml`), and their success outputs are reported.
+deployer, and their success outputs are reported.
 
 ## Files
 

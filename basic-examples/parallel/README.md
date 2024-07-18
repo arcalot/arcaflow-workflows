@@ -6,8 +6,8 @@ By default, multiple steps in a workflow will be run in parallel if there is no 
 dependency between the steps. 
 
 This workflow runs a metadata collection plugin step and an example plugin step in
-parallel. All steps are run via the default deployer (defined in `config.yaml`), and
-their success outputs are reported.
+parallel. All steps are run via the default deployer, and their success outputs are
+reported.
 
 ## Files
 

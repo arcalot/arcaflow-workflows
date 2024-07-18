@@ -8,8 +8,8 @@ of another step, an implicit serial relationshp is created.
 
 This workflow runs a metadata collection plugin step and then an example plugin (in this
 case using the template plugin) that takes its `name` input from the `fqdn` output
-returned by the metadata plugin. All steps are run via the default deployer (defined in
-`config.yaml`), and their success outputs are reported.
+returned by the metadata plugin. All steps are run via the default deployer, and their
+success outputs are reported.
 
 > [!NOTE]
 > This workflow does not require an input file.

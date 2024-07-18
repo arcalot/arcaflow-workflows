@@ -5,15 +5,15 @@
 ### Parent workflow
 
 This workflow demonstrates how to use the Arcaflow builtin function `bindConstants()` to
-repeat a set of input values with each item in your input list using a foreach loop.
+repeat a set of input values with each item in your input list using a `foreach` loop.
 
 ### Subworkflow
 
 The subworkflow uses a plugin to print the value of the `name` input.  The `loop_id` and
 `nickname` input values are bundled with this plugin output as this subworkflow's
 output. The example plugin is used to simulate an operation on input data and produce an
-output. In a real world scenario, the subworkflow will likely use more complex plugins
-with more complex schemas.
+output. In a real world scenario, the subworkflow would presumably use more complex
+plugins with more complex schemas.
 
 ## Files
 

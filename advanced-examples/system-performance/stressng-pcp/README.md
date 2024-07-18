@@ -2,11 +2,11 @@
 
 ## Workflow Description
 
-The primary [`workflow.yaml`](workflow.yaml) is designed to collect system metadata with
-Ansible [gather facts](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/gather_facts_module.html)
-using the Arcaflow
-[metadata plugin](https://github.com/arcalot/arcaflow-plugin-metadata), and then to run
-loops of a stress-ng sub-workflow with various parameters.
+The [primary workflow](workflow.yaml) is designed to collect system metadata using the
+Arcaflow [metadata plugin](https://github.com/arcalot/arcaflow-plugin-metadata), and
+then to run loops of a [stress-ng
+plugin](https://github.com/arcalot/arcaflow-plugin-stressng) sub-workflow with various
+parameters.
 
 In addition to the stress-ng workload, the sub-workflow collects system metrics with
 [Performance Co-pilot](https://pcp.io/) using the Arcaflow
@@ -25,7 +25,7 @@ plugins and sub-workflow to run and their data relationships, and the output to 
 to the user
 - [`stressng-workflow.yaml`](stressng-workflow.yaml) -- Defines the inner workflow input
 schema, plugins, and output for stress-ng tests. This workflow is looped over by the
-`workflow.yaml`, but it can also be used stand-alone
+outer workflow, but it can also be used stand-alone
 - [`input.yaml`](sample-input.yaml) -- Example input parameters that the user provides
 for running the outer workflow
 - [`sample-input-stressng-cpu.yaml`](sample-input-stressng-cpu.yaml) -- Example CPU test

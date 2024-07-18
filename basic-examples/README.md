@@ -17,12 +17,12 @@ list using a foreach loop
 
 > [!NOTE]
 > The Arcaflow engine executes the steps of a workflow via *deployers* for one or more
-> container platorms, such as
+> container platforms, such as
 > [Podman](https://github.com/arcalot/arcaflow-engine-deployer-podman),
 > [Docker](https://github.com/arcalot/arcaflow-engine-deployer-docker),
 > or [Kubernetes](https://github.com/arcalot/arcaflow-engine-deployer-kubernetes).
-> Arcaflow's default deployer is Podman. To override this default, a
-> [configuration file](https://arcalot.io/arcaflow/running/setup/#configuration) must be
-> used with the `arcaflow` command. A basic [Docker config file](/docker-config.yaml) is
-> included in this repo's root directory and can be used with any of these example
-> workflows via the `--config` parameter.
+> Arcaflow's default deployer is Podman. To override this default, specify a
+> [configuration file](https://arcalot.io/arcaflow/running/setup/#configuration) via the
+> `--config` option on the `arcaflow` command line. A basic
+> [Docker config file](/docker-config.yaml) is included in this repo's root directory
+> and can be used with any of these example workflows.

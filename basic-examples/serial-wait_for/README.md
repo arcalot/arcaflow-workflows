@@ -10,7 +10,7 @@ step.
 
 This workflow runs a metadata collection plugin step, and then an example plugin that
 waits for the success of the metadata collection before starting. All steps are run via
-the default deployer (defined in `config.yaml`), and their success outputs are reported.
+the default deployer, and their success outputs are reported.
 
 ## Files
 
