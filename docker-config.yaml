@@ -1,0 +1,3 @@
+deployers:
+  image:
+    deployer_name: docker

@@ -1,8 +1,0 @@
-deployers:
-  image:
-    deployer_name: docker
-log:
-  level: debug    
-logged_outputs:
-  error:
-    level: error
