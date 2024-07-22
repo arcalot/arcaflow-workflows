@@ -7,7 +7,7 @@ input:
       properties: {}
 
 steps:
-  ansible_facts:
+  metadata:
     plugin:
       deployment_type: image
       src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
@@ -15,4 +15,4 @@ steps:
 
 outputs:
  success:
-   hostname: !expr $.steps.ansible_facts.outputs.success.env['HOSTNAME']
+   hostname: !expr $.steps.metadata.outputs.success.env['HOSTNAME']

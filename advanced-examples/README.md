@@ -6,9 +6,10 @@
 
 ## Network Performance
 
-- [iperf Kubernetes](network-performance/network-performance-iperf3-k8s/) - Runs an iperf3 network performance test on a Kubernetes cluster using a service port
+- [iPerf3 Kubernetes](network-performance/network-performance-iperf3-k8s/) - Runs an iPerf3 network performance test on a Kubernetes cluster using a service port
 - [uperf Kubernetes](network-performance/network-performance-uperf-k8s/) - Runs a
-network streaming one-directional workload using the uperf benchmark utility
+network streaming one-directional workload using the uperf benchmark utility on a
+Kubernetes cluster
 
 ## System Performance
 
