@@ -5,29 +5,29 @@
 ## Workflow Description
 
 This example workflow runs a network streaming one-directional workload using the
-[uperf](https://github.com/uperf/uperf) benchmark utility. The uperf plugin will
-run on a Kubernetes cluster using a provided `kubeconfig` object and will use a kubernetes service for communication between the uperf server and client pods.
+[uperf](https://github.com/uperf/uperf) benchmark utility. The uperf plugin will run on
+a Kubernetes cluster using a provided `kubeconfig` object and will use a kubernetes
+service for communication between the uperf server and client pods.
 
-In addition to the uperf workload, the workflow generates a UUID, which can be used as a unique key for the generated data, collects system metrics with [Performance Co-pilot](https://pcp.io/), and collects system metadata using Ansible [gather facts](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/gather_facts_module.html).
+In addition to the uperf workload, the workflow generates a UUID, which can be used as a
+unique key for the generated data, collects system metrics with [Performance
+Co-pilot](https://pcp.io/), and collects system metadata using Ansible [gather
+facts](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/gather_facts_module.html).
 
 ## Files
 
-- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
-  and their data relationships, and the output to present to the user
+- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to
+  run and their data relationships, and the output to present to the user
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
-  engine
                      
 ## Running the Workflow
-
-### Workflow Execution
 
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
-```
-$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
+```bash
+arcaflow --input input.yaml 
 ```
 
 ## Workflow Diagram

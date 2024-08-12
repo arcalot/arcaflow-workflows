@@ -2,7 +2,10 @@
 
 ## Workflow Description
 
-This workflow runs an iperf3 network performance test on a Kubernetes cluster using a service port. The workflow collects metadata from a cluster node, as well as node-level performance metrics using Performance Co-Pilot (PCP). Additionally it generates a unique UUID to associate with the data in order to aid as an index reference when storing data.
+This workflow runs an iperf3 network performance test on a Kubernetes cluster using a
+service port. The workflow collects metadata from a cluster node, as well as node-level
+performance metrics using Performance Co-Pilot (PCP). Additionally it generates a unique
+UUID to associate with the data in order to aid as an index reference when storing data.
 
 ## TODO
 
@@ -18,22 +21,18 @@ This workflow needs a few updates as features become available in the Arcaflow e
 
 ## Files
 
-- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to run
-  and their data relationships, and the output to present to the user
+- [`workflow.yaml`](workflow.yaml) -- Defines the workflow input schema, the plugins to
+  run and their data relationships, and the output to present to the user
 - [`input.yaml`](input.yaml) -- The input parameters that the user provides for running
   the workflow
-- [`config.yaml`](config.yaml) -- Global config parameters that are passed to the Arcaflow
-  engine
                      
 ## Running the Workflow
-
-### Workflow Execution
 
 Download the Arcaflow engine from: https://github.com/arcalot/arcaflow-engine/releases
  
 Run the workflow:
-```
-$ arcaflow --context <workflow directory> --input input.yaml --config config.yaml
+```bash
+arcaflow --input input.yaml
 ```
 
 ## Workflow Diagram

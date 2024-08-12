@@ -64,15 +64,15 @@ steps:
   pcp:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-pcp:0.8.0
-    step: start-pcp
+      src: quay.io/arcalot/arcaflow-plugin-pcp:0.10.0
+    step: run-pcp
     input:
       pmlogger_interval: !expr $.input.pmlogger_interval
     stop_if: !expr $.steps.sysbench.outputs
   sysbench:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-sysbench:0.6.0
+      src: quay.io/arcalot/arcaflow-plugin-sysbench:0.7.0
     step: sysbenchcpu
     input:
       threads: !expr $.input.sysbench_threads
@@ -83,7 +83,7 @@ steps:
   metadata:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-metadata:0.4.0
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
     input: {}
   opensearch:
     plugin:

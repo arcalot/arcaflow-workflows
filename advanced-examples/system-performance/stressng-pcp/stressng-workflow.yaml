@@ -36,8 +36,8 @@ steps:
   pcp:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-pcp:0.9.0
-    step: start-pcp
+      src: quay.io/arcalot/arcaflow-plugin-pcp:0.10.0
+    step: run-pcp
     input: !expr $.input.constant
     # Stop the PCP data collection after the post_wait step completes
     stop_if: !expr $.steps.post_wait.outputs
@@ -57,7 +57,7 @@ steps:
   stressng:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-stressng:0.7.0
+      src: quay.io/arcalot/arcaflow-plugin-stressng:0.8.0
     step: workload
     input: !expr $.input.item
     # Don't start this step until after the pre_wait has completed
