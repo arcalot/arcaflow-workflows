@@ -48,7 +48,7 @@ arcaflow --input input.yaml
 
 Run the sub-workflow as a stand-alone workflow:
 ```bash
-$ arcaflow --input sample-input-stressng-cpu.yaml --workflow stressng-workflow.yaml
+arcaflow --input sample-input-stressng-cpu.yaml --workflow stressng-workflow.yaml
 ```
 
 ## Workflow Diagrams    
