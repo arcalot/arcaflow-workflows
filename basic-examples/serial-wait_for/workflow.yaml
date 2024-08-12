@@ -17,12 +17,12 @@ steps:
   metadata:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-metadata:0.4.0
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
     input: {}
   example:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-example:0.5.0
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.1
     input:
       name:
         _type: nickname

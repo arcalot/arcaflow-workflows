@@ -1,0 +1,113 @@
+version: v0.2.0
+input:
+  root: StressngLoopWorkflowInput
+  objects:
+    StressngLoopWorkflowInput:
+      id: StressngLoopWorkflowInput
+      properties:
+        run_id:
+          display:
+            description: |
+              A unique run identifier for tracking groups of workflows triggered by
+              external automation/CI
+            name: Run ID
+          type:
+            type_id: string
+          default: "''"
+          required: false
+        user:
+          display:
+            description: |
+              A user name identifier for tracking groups of workflows triggered by
+              external automation/CI
+            name: User
+          type:
+            type_id: string
+          default: "''"
+          required: false
+        description:
+          display:
+            description: |
+              A user-defined description of the workflow being run, to be included in
+              the workflow output
+            name: Description
+          type:
+            type_id: string
+          default: "''"
+          required: false
+        stressng_tests:
+          type:
+            type_id: list
+            items:
+              id: StressNGParams
+              type_id: ref
+              namespace: $.steps.stressng_loop.execute.inputs.items.item
+        pcp_params:
+          type:
+            type_id: ref
+            id: PcpInputParams
+            namespace: $.steps.stressng_loop.execute.inputs.items.constant
+
+steps:
+  # Generate a global-scope UUID for the workflow
+  uuidgen:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: uuid
+    input: {}
+
+  # Collect general system configuration metadata
+  ansible_facts:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
+    deploy:
+      # NOTE: If you change the config to use a different deployer, you should also
+      # update the deployer_name here.
+      deployer_name: podman
+      deployment:
+        host:
+          NetworkMode: host
+          Binds:
+            - /etc/system-release:/etc/system-release
+    input: {}
+
+  # Set the global-scope start timestamp metadata
+  start_timestamp:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: timestamp
+    input: {}
+
+  # Run the loop of stress-ng sub-workflows
+  stressng_loop:
+    kind: foreach
+    items: !expr 'bindConstants($.input.stressng_tests, $.input.pcp_params)'
+    workflow: stressng-workflow.yaml
+    parallelism: 1
+    # Don't start this step until after the start_timestamp step completes
+    wait_for: !expr $.steps.start_timestamp.outputs
+
+  # Set the global-scope end timestamp metadata
+  end_timestamp:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: timestamp
+    input: {}
+    # Don't start this step until after the stressng_loop step completes
+    wait_for: !expr $.steps.stressng_loop.outputs
+
+outputs:
+  success:
+    payload:
+      uuid: !expr $.steps.uuidgen.outputs.success.uuid
+      run_id: !expr $.input.run_id
+      user: !expr $.input.user
+      description: !expr $.input.description
+      start_time: !expr $.steps.start_timestamp.outputs.success.timestamp
+      end_time: !expr $.steps.end_timestamp.outputs.success.timestamp
+      ansible_facts: !expr $.steps.ansible_facts.outputs.success
+      workload: !expr $.steps.stressng_loop.outputs.success.data

@@ -24,12 +24,12 @@ input:
         name:
           type:
             type_id: string
-        ratio:
-          type:
-            type_id: float
     SubRootObject:
       id: SubRootObject
       properties:
+        nickname:
+          type:
+            type_id: string
         loop_id:
           type:
             type_id: integer
@@ -38,12 +38,23 @@ steps:
   example:
     plugin:
       deployment_type: image
-      src: quay.io/arcalot/arcaflow-plugin-template-python:0.4.0
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.1
     input:
-      name: !expr $.input.constant.name
+      name:
+        _type: nickname
+        nick: !expr $.input.item.nickname
+  example2:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-example:0.5.1
+    input:
+      name:
+        _type: nickname
+        nick: !expr $.input.constant.name
 
 outputs:
   success:
     loop_id: !expr $.input.item.loop_id
-    ratio: !expr $.input.constant.ratio
-    beatle: !expr $.steps.example.outputs.success
+    hello:
+      beatle: !expr $.steps.example.outputs.success.message
+      band: !expr $.steps.example2.outputs.success.message

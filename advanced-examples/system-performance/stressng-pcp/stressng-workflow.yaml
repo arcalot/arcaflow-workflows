@@ -1,0 +1,81 @@
+version: v0.2.0
+input:
+  root: StressNGParams__PcpInputParams
+  objects:
+    StressNGParams__PcpInputParams:
+      id: StressNGParams__PcpInputParams
+      properties:
+        constant:
+          display:
+            description: The parameters for the PCP workload
+            name: PCP parameters
+          type:
+            type_id: ref
+            id: PcpInputParams
+            namespace: $.steps.pcp.starting.inputs.input
+        item:
+          display:
+            description: The parameters for the stressng workload
+            name: stressng parameters
+          type:
+            type_id: ref
+            id: StressNGParams
+            namespace: $.steps.stressng.starting.inputs.input
+          required: true
+
+steps:
+  # Generate a UUID for the workflow
+  uuidgen:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: uuid
+    input: {}
+
+  # Start the PCP data collection
+  pcp:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-pcp:0.10.0
+    step: run-pcp
+    input: !expr $.input.constant
+    # Stop the PCP data collection after the post_wait step completes
+    stop_if: !expr $.steps.post_wait.outputs
+
+  # Wait the specified milliseconds before starting the stress-ng workload
+  pre_wait:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: wait
+    input:
+      wait_time_ms: 10000
+    # Don't start this step until after the pcp step has started
+    wait_for: !expr $.steps.pcp.starting.started
+
+  # Start the stress-ng workload
+  stressng:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-stressng:0.8.0
+    step: workload
+    input: !expr $.input.item
+    # Don't start this step until after the pre_wait has completed
+    wait_for: !expr $.steps.pre_wait.outputs
+
+  # Wait the specified milliseconds after the stress-ng workload succeeds
+  post_wait:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-utilities:0.6.0
+    step: wait
+    input:
+      wait_time_ms: 10000
+    # Don't start this step until after the stressng step completes
+    wait_for: !expr $.steps.stressng.outputs
+
+outputs:
+  success:
+    sample_uuid: !expr $.steps.uuidgen.outputs.success.uuid
+    test_results: !expr $.steps.stressng.outputs.success
+    pcp_time_series: !expr $.steps.pcp.outputs.success.pcp_output

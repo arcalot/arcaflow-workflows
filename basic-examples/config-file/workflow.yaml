@@ -1,0 +1,18 @@
+version: v0.2.0
+input:
+  root: RootObject
+  objects:
+    RootObject:
+      id: RootObject
+      properties: {}
+
+steps:
+  metadata:
+    plugin:
+      deployment_type: image
+      src: quay.io/arcalot/arcaflow-plugin-metadata:0.5.0
+    input: {}
+
+outputs:
+ success:
+   hostname: !expr $.steps.metadata.outputs.success.env['HOSTNAME']
