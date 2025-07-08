@@ -2,23 +2,16 @@
 run_id: example_run_id
 pcp_pmlogger_interval: 1.0
 stressng_params:
-  timeout: 1m
-  workdir: /tmp
+  timeout: 10
   stressors:
     - stressor: cpu
-      cpu_count: 2
-      cpu_method: "all"
+      workers: 1
     - stressor: vm
-      vm: 5
-      vm_bytes: "1g"
-    - stressor: matrix
-      matrix: 1
-    - stressor: mq
-      mq: 2
-    - stressor: hdd
-      hdd: 1
-      hdd_bytes: 1g
-      hdd_write_size: 1m
+      workers: 1
+      vm-bytes: 1G
+    - stressor: mmap
+      workers: 1
+      mmap-bytes: 1G
 k8s_namespace: default
 kubeconfig: |
   <kubeconfig as a multi-line string>
